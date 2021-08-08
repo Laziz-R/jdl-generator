@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JDL-generating</title>
+    </head>
+    <body>
+        <form method="POST" action="/file-upload" enctype="multipart/form-data">
+            <table>
+                <tr><td>Author</td><td><input type="text" name="author" value="laziz"></td></tr>
+                <tr><td>GroupId</td><td><input type="text" name="groupId" value="com.safenetpay"></td></tr>
+                <tr><td>ArtifactId</td><td><input type="text" name="artifactId" value="app"></td></tr>
+                <tr><td>DB name</td><td><input type="text" name="dbName" value="some_db"></td></tr>
+                <tr><td>DB user</td><td><input type="text" name="dbUser" value="some_user"></td></tr>
+                <tr><td>DB password</td><td><input type="password" name="dbPassword" value="6688"></td></tr>
+                <tr><td>Schema</td><td><input type="text" name="schema" value="task"></td></tr>
+                <tr><td>JDL file</td><td><input type="file" name="file"></td></tr>
+            </table>            
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
