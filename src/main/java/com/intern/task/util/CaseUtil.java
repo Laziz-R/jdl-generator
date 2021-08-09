@@ -29,6 +29,21 @@ public class CaseUtil {
         return c + camel.substring(1);
     }
 
+    public static String camelToKebab(String camel){
+        if(camel == null)
+            return null;
+        String kebab = "";
+        for(int i=0; i<camel.length(); i++){
+            char c = camel.charAt(i);
+            if('A' <= c && c <= 'Z'){
+                kebab += "-" + (char)(c + 32);
+            } else{
+                kebab += c;
+            }
+        }
+        return kebab;
+    }
+
     public static String kebabToPascal(String kebab){
         if(kebab==null) return null;
         kebab = "-" + kebab.toLowerCase();

@@ -3,14 +3,11 @@ package ${package}.db;
 <#list entities as entity>
 import ${package}.db.command.${entity.name.pascalCase}Command;
 </#list>
-
 <#list entities as entity>
 import ${package}.model.${entity.name.pascalCase};
 import ${package}.model.list.${entity.name.pascalCase}List;
 </#list>
 import ${package}.need.UserCredentials;
-
-import java.util.List;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -18,6 +15,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.PoolOptions;
+
+import java.util.List;
 
 import org.apache.log4j.Logger;
 

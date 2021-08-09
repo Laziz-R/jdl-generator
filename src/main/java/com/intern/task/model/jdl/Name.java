@@ -15,6 +15,7 @@ public class Name {
                 this.camelCase = name;
                 this.snakeCase = CaseUtil.camelToSnake(name);
                 this.pascalCase = CaseUtil.camelToPascal(name);
+                this.kebabCase = CaseUtil.camelToKebab(name);
                 break;
             case CaseUtil.PASCAL_CASE:
                 this.pascalCase = name;

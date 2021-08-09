@@ -1,6 +1,8 @@
+<#assign schemaCamel = schema.camelCase/>
+<#assign schemaPascal = schema.pascalCase/>
 package ${package}.router;
 
-import ${package}.controller.${schema.pascalCase}Controller;
+import ${package}.controller.${schemaPascal}Controller;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -12,16 +14,15 @@ import io.vertx.ext.web.openapi.RouterBuilder;
 
 import org.apache.log4j.Logger;
 
-public class ${schema.pascalCase}Router {
-<#assign pre = schema.camelCase/>
-    private static Logger LOGGER = Logger.getLogger(${schema.pascalCase}Router.class);
+public class ${schemaPascal}Router {
+    private static Logger LOGGER = Logger.getLogger(${schemaPascal}Router.class);
 
     private Vertx vertx;
-    private ${schema.pascalCase}Controller ${pre}Controller;
+    private ${schemaPascal}Controller ${schemaCamel}Controller;
 
-    public ${schema.pascalCase}Router(Vertx vertx) {
+    public ${schemaPascal}Router(Vertx vertx) {
         this.vertx = vertx;
-        this.${pre}Controller = new ${schema.pascalCase}Controller(vertx);
+        this.${schemaCamel}Controller = new ${schemaPascal}Controller(vertx);
     }
 
     public Future<Router> create(){
@@ -33,20 +34,20 @@ public class ${schema.pascalCase}Router {
 
                 // region ${pascalName}
 
-                builder.operation("${pre}${pascalName}Add")
-                    .handler(${pre}Controller::handle${pascalName}Add);
+                builder.operation("${schemaCamel}${pascalName}Add")
+                    .handler(${schemaCamel}Controller::handle${pascalName}Add);
 
-                builder.operation("${pre}${pascalName}Update")
-                    .handler(${pre}Controller::handle${pascalName}Update);
+                builder.operation("${schemaCamel}${pascalName}Update")
+                    .handler(${schemaCamel}Controller::handle${pascalName}Update);
 
-                builder.operation("${pre}${pascalName}Delete")
-                    .handler(${pre}Controller::handle${pascalName}Delete);
+                builder.operation("${schemaCamel}${pascalName}Delete")
+                    .handler(${schemaCamel}Controller::handle${pascalName}Delete);
 
-                builder.operation("${pre}${pascalName}Get")
-                    .handler(${pre}Controller::handle${pascalName}Get);
+                builder.operation("${schemaCamel}${pascalName}Get")
+                    .handler(${schemaCamel}Controller::handle${pascalName}Get);
 
-                builder.operation("${pre}${pascalName}GetList")
-                    .handler(${pre}Controller::handle${pascalName}GetList);
+                builder.operation("${schemaCamel}${pascalName}GetList")
+                    .handler(${schemaCamel}Controller::handle${pascalName}GetList);
 
                 // endregion
 

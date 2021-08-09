@@ -1,0 +1,1311 @@
+openapi: '3.0.2'
+info:
+  title: Task APIs
+  version: '1.0'
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /task/region/add: 
+    post:
+      tags:
+        - "Task Region"
+      operationId:  taskRegionAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyRegion"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/region/delete:
+    post:
+      tags:
+        - "Task Region"
+      operationId:  taskRegionDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestRegionId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/region/get:
+    post:
+      tags:
+        - "Task Region"
+      operationId:  taskRegionGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestRegionId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/region/get-list:
+    post:
+      tags:
+        - "Task Region"
+      operationId:  taskRegionGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/region/update:
+    post:
+      tags:
+        - "Task Region"
+      operationId:  taskRegionUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyRegion"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/country/add: 
+    post:
+      tags:
+        - "Task Country"
+      operationId:  taskCountryAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyCountry"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/country/delete:
+    post:
+      tags:
+        - "Task Country"
+      operationId:  taskCountryDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestCountryId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/country/get:
+    post:
+      tags:
+        - "Task Country"
+      operationId:  taskCountryGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestCountryId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/country/get-list:
+    post:
+      tags:
+        - "Task Country"
+      operationId:  taskCountryGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/country/update:
+    post:
+      tags:
+        - "Task Country"
+      operationId:  taskCountryUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyCountry"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/location/add: 
+    post:
+      tags:
+        - "Task Location"
+      operationId:  taskLocationAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyLocation"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/location/delete:
+    post:
+      tags:
+        - "Task Location"
+      operationId:  taskLocationDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestLocationId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/location/get:
+    post:
+      tags:
+        - "Task Location"
+      operationId:  taskLocationGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestLocationId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/location/get-list:
+    post:
+      tags:
+        - "Task Location"
+      operationId:  taskLocationGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/location/update:
+    post:
+      tags:
+        - "Task Location"
+      operationId:  taskLocationUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyLocation"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/department/add: 
+    post:
+      tags:
+        - "Task Department"
+      operationId:  taskDepartmentAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyDepartment"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/department/delete:
+    post:
+      tags:
+        - "Task Department"
+      operationId:  taskDepartmentDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestDepartmentId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/department/get:
+    post:
+      tags:
+        - "Task Department"
+      operationId:  taskDepartmentGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestDepartmentId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/department/get-list:
+    post:
+      tags:
+        - "Task Department"
+      operationId:  taskDepartmentGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/department/update:
+    post:
+      tags:
+        - "Task Department"
+      operationId:  taskDepartmentUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyDepartment"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/task/add: 
+    post:
+      tags:
+        - "Task Task"
+      operationId:  taskTaskAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyTask"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/task/delete:
+    post:
+      tags:
+        - "Task Task"
+      operationId:  taskTaskDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestTaskId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/task/get:
+    post:
+      tags:
+        - "Task Task"
+      operationId:  taskTaskGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestTaskId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/task/get-list:
+    post:
+      tags:
+        - "Task Task"
+      operationId:  taskTaskGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/task/update:
+    post:
+      tags:
+        - "Task Task"
+      operationId:  taskTaskUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyTask"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/employee/add: 
+    post:
+      tags:
+        - "Task Employee"
+      operationId:  taskEmployeeAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyEmployee"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/employee/delete:
+    post:
+      tags:
+        - "Task Employee"
+      operationId:  taskEmployeeDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestEmployeeId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/employee/get:
+    post:
+      tags:
+        - "Task Employee"
+      operationId:  taskEmployeeGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestEmployeeId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/employee/get-list:
+    post:
+      tags:
+        - "Task Employee"
+      operationId:  taskEmployeeGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/employee/update:
+    post:
+      tags:
+        - "Task Employee"
+      operationId:  taskEmployeeUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyEmployee"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job/add: 
+    post:
+      tags:
+        - "Task Job"
+      operationId:  taskJobAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyJob"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job/delete:
+    post:
+      tags:
+        - "Task Job"
+      operationId:  taskJobDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestJobId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job/get:
+    post:
+      tags:
+        - "Task Job"
+      operationId:  taskJobGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestJobId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job/get-list:
+    post:
+      tags:
+        - "Task Job"
+      operationId:  taskJobGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job/update:
+    post:
+      tags:
+        - "Task Job"
+      operationId:  taskJobUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyJob"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-history/add: 
+    post:
+      tags:
+        - "Task JobHistory"
+      operationId:  taskJobHistoryAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyJobHistory"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-history/delete:
+    post:
+      tags:
+        - "Task JobHistory"
+      operationId:  taskJobHistoryDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestJobHistoryId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-history/get:
+    post:
+      tags:
+        - "Task JobHistory"
+      operationId:  taskJobHistoryGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestJobHistoryId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-history/get-list:
+    post:
+      tags:
+        - "Task JobHistory"
+      operationId:  taskJobHistoryGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-history/update:
+    post:
+      tags:
+        - "Task JobHistory"
+      operationId:  taskJobHistoryUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyJobHistory"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-task/add: 
+    post:
+      tags:
+        - "Task JobTask"
+      operationId:  taskJobTaskAdd
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyJobTask"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-task/delete:
+    post:
+      tags:
+        - "Task JobTask"
+      operationId:  taskJobTaskDelete
+      requestBody:
+        $ref: "#/components/requestBodies/RequestJobTaskId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-task/get:
+    post:
+      tags:
+        - "Task JobTask"
+      operationId:  taskJobTaskGet
+      requestBody:
+        $ref: "#/components/requestBodies/RequestJobTaskId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-task/get-list:
+    post:
+      tags:
+        - "Task JobTask"
+      operationId:  taskJobTaskGetList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+  /task/job-task/update:
+    post:
+      tags:
+        - "Task JobTask"
+      operationId:  taskJobTaskUpdate
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBodyJobTask"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
+components:
+  schemas:
+
+    regionId:
+      type: object
+      properties:
+        region_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - region_id
+
+    Region:
+      allOf:
+        - $ref: "#/components/schemas/regionId"
+        - type: object
+          properties:
+            region_name:
+              type: string
+              nullable: true
+
+    countryId:
+      type: object
+      properties:
+        country_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - country_id
+
+    Country:
+      allOf:
+        - $ref: "#/components/schemas/countryId"
+        - type: object
+          properties:
+            country_name:
+              type: string
+              nullable: true
+            region_id:
+              type: integer
+              nullable: true
+
+    locationId:
+      type: object
+      properties:
+        location_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - location_id
+
+    Location:
+      allOf:
+        - $ref: "#/components/schemas/locationId"
+        - type: object
+          properties:
+            street_address:
+              type: string
+              nullable: true
+            postal_code:
+              type: string
+              nullable: true
+            city:
+              type: string
+              nullable: true
+            state_province:
+              type: string
+              nullable: true
+            country_id:
+              type: integer
+              nullable: true
+
+    departmentId:
+      type: object
+      properties:
+        department_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - department_id
+
+    Department:
+      allOf:
+        - $ref: "#/components/schemas/departmentId"
+        - type: object
+          properties:
+            department_name:
+              type: string
+              nullable: true
+            location_id:
+              type: integer
+              nullable: true
+
+    taskId:
+      type: object
+      properties:
+        task_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - task_id
+
+    Task:
+      allOf:
+        - $ref: "#/components/schemas/taskId"
+        - type: object
+          properties:
+            title:
+              type: string
+              nullable: true
+            description:
+              type: string
+              nullable: true
+
+    employeeId:
+      type: object
+      properties:
+        employee_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - employee_id
+
+    Employee:
+      allOf:
+        - $ref: "#/components/schemas/employeeId"
+        - type: object
+          properties:
+            first_name:
+              type: string
+              nullable: true
+            last_name:
+              type: string
+              nullable: true
+            email:
+              type: string
+              nullable: true
+            phone_number:
+              type: string
+              nullable: true
+            hire_date:
+              type: string
+              nullable: true
+            salary:
+              type: integer
+              nullable: true
+            commission_pct:
+              type: integer
+              nullable: true
+            department_id:
+              type: integer
+              nullable: true
+
+    jobId:
+      type: object
+      properties:
+        job_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - job_id
+
+    Job:
+      allOf:
+        - $ref: "#/components/schemas/jobId"
+        - type: object
+          properties:
+            job_title:
+              type: string
+              nullable: true
+            min_salary:
+              type: integer
+              nullable: true
+            max_salary:
+              type: integer
+              nullable: true
+            employee_id:
+              type: integer
+              nullable: true
+
+    jobHistoryId:
+      type: object
+      properties:
+        job_history_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - job_history_id
+
+    JobHistory:
+      allOf:
+        - $ref: "#/components/schemas/jobHistoryId"
+        - type: object
+          properties:
+            start_date:
+              type: string
+              nullable: true
+            end_date:
+              type: string
+              nullable: true
+            language:
+              type: string
+              nullable: true
+            job_id:
+              type: integer
+              nullable: true
+            department_id:
+              type: integer
+              nullable: true
+            employee_id:
+              type: integer
+              nullable: true
+
+    jobTaskId:
+      type: object
+      properties:
+        job_task_id:
+          type: integer
+          nullable: true
+          format: int64
+      required:
+        - job_task_id
+
+    JobTask:
+      allOf:
+        - $ref: "#/components/schemas/jobTaskId"
+        - type: object
+          properties:
+            job_title:
+              type: string
+              nullable: true
+            title:
+              type: string
+              nullable: true
+    Request:
+      required:
+        - jsonrpc
+        - id
+        - params
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+            - "2.0"
+          example: "2.0"
+        id:
+          type: integer
+          format: int64
+          example: 10
+        params:
+          type: object
+    Response:
+      properties:
+        id:
+          type: integer
+          format: int64
+        result:
+          type: object
+          nullable: true
+          example: null
+        error:
+          type: object
+          nullable: true
+          example: null
+    ResponseSuccess:
+      allOf:
+        - $ref: "#/components/schemas/Response"
+        - type: object
+          properties:
+            result:
+              type: object
+              nullable: false
+              example: {}
+    ResponseError:
+      allOf:
+        - $ref: "#/components/schemas/Response"
+        - type: object
+          properties:
+            error:
+              type: object
+              nullable: false
+              properties:
+                code:
+                  type: integer
+                  format: int64
+                  nullable: false
+                  example: 1000
+                message:
+                  type: string
+                  nullable: false
+                  example: "any error response text message"
+              example: { code: 1000, message: "any error response text message"}
+    listParams:
+      type: object
+      properties:
+        skip_count:
+          type: integer
+          nullable: true
+          example: 0
+        page_size:
+          type: integer
+          nullable: true
+          example: 20
+  requestBodies:
+    RequestListParams:
+      description: "Standard get list"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/listParams'
+    RequestRegionIdListParams:
+      description: "Standard get list by Region Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/regionId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestRegionId:
+      description: "Standard Region Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/regionId'
+    RequestBodyRegion:
+      description: "Add Region Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      region:
+                        $ref: '#/components/schemas/Region'
+    RequestCountryIdListParams:
+      description: "Standard get list by Country Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/countryId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestCountryId:
+      description: "Standard Country Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/countryId'
+    RequestBodyCountry:
+      description: "Add Country Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      country:
+                        $ref: '#/components/schemas/Country'
+    RequestLocationIdListParams:
+      description: "Standard get list by Location Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/locationId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestLocationId:
+      description: "Standard Location Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/locationId'
+    RequestBodyLocation:
+      description: "Add Location Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      location:
+                        $ref: '#/components/schemas/Location'
+    RequestDepartmentIdListParams:
+      description: "Standard get list by Department Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/departmentId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestDepartmentId:
+      description: "Standard Department Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/departmentId'
+    RequestBodyDepartment:
+      description: "Add Department Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      department:
+                        $ref: '#/components/schemas/Department'
+    RequestTaskIdListParams:
+      description: "Standard get list by Task Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/taskId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestTaskId:
+      description: "Standard Task Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/taskId'
+    RequestBodyTask:
+      description: "Add Task Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      task:
+                        $ref: '#/components/schemas/Task'
+    RequestEmployeeIdListParams:
+      description: "Standard get list by Employee Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/employeeId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestEmployeeId:
+      description: "Standard Employee Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/employeeId'
+    RequestBodyEmployee:
+      description: "Add Employee Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      employee:
+                        $ref: '#/components/schemas/Employee'
+    RequestJobIdListParams:
+      description: "Standard get list by Job Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/jobId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestJobId:
+      description: "Standard Job Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/jobId'
+    RequestBodyJob:
+      description: "Add Job Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      job:
+                        $ref: '#/components/schemas/Job'
+    RequestJobHistoryIdListParams:
+      description: "Standard get list by JobHistory Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/jobHistoryId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestJobHistoryId:
+      description: "Standard JobHistory Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/jobHistoryId'
+    RequestBodyJobHistory:
+      description: "Add JobHistory Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      job_history:
+                        $ref: '#/components/schemas/JobHistory'
+    RequestJobTaskIdListParams:
+      description: "Standard get list by JobTask Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/jobTaskId'
+                      - $ref: '#/components/schemas/listParams'
+    RequestJobTaskId:
+      description: "Standard JobTask Request"
+      required: true
+      content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Request'
+                - type: object
+                  properties:
+                    params:
+                      $ref: '#/components/schemas/jobTaskId'
+    RequestBodyJobTask:
+      description: "Add JobTask Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+                properties:
+                  params:
+                    type: object
+                    properties:
+                      job_task:
+                        $ref: '#/components/schemas/JobTask'
+  responses:
+    Success:
+      description: "Success Response"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseSuccess"
+    Error:
+      description: "Error response"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseError"

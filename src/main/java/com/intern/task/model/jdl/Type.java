@@ -1,19 +1,19 @@
 package com.intern.task.model.jdl;
 
 import com.intern.task.model.jdl.list.TypeList;
-import com.intern.task.util.CaseUtil;
 
 public class Type {
     private String jvName;
     private String pgName;
     private String swName;
-    private String jLibrary;
+    private String library;
+    private boolean unknown = false;
 
-    public Type(String jvName, String pgName, String swName, String jLibrary){
+    public Type(String jvName, String pgName, String swName, String library){
         this.jvName = jvName;
         this.pgName = pgName;
         this.swName = swName;
-        this.jLibrary = jLibrary;
+        this.library = library;
     }
 
     public Type(String jvName){
@@ -22,10 +22,13 @@ public class Type {
             if(jvName.equals(type.jvName)){
                 this.pgName = type.pgName;
                 this.swName = type.swName;
-                this.jLibrary = type.jLibrary;
+                this.library = type.library;
             }
-        if(pgName == null)
-            pgName = CaseUtil.camelToSnake(jvName);
+        if(pgName == null){
+            this.unknown = true;
+            this.pgName = "TEXT";
+            this.swName = "string";
+        }
     }
 
     public String getJvName() {
@@ -52,11 +55,15 @@ public class Type {
         this.swName = swName;
     }
 
-    public String getJLibrary() {
-        return this.jLibrary;
+    public String getLibrary() {
+        return this.library;
     }
 
-    public void setJLibrary(String jLibrary) {
-        this.jLibrary = jLibrary;
+    public void setLibrary(String library) {
+        this.library = library;
+    }
+    
+    public boolean isUnknown() {
+        return unknown;
     }
 }

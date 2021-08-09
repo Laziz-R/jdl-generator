@@ -89,7 +89,7 @@ public class JdlCode {
                         .setName(new Name(fromEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE)));
                 break;
             case MANY_TO_MANY:
-                Name eName = new Name(fromEntity.getName().getCamelCase() + toEntity.getName().getCamelCase(), CaseUtil.CAMEL_CASE);
+                Name eName = new Name(fromEntity.getName().getPascalCase() + toEntity.getName().getPascalCase(), CaseUtil.PASCAL_CASE);
                 List<Field> fields = new ArrayList<>();
                 fields.add(fromEntity.getFields().get(0));
                 fields.add(toEntity.getFields().get(0));

@@ -6,6 +6,11 @@ package ${package}.db.command;
 
 import ${package}.model.${pascalName};
 import ${package}.model.list.${pascalName}List;
+<#list entity.fields as field>
+<#if field.type.unknown>
+import ${package}.model.${field.name.pascalCase};
+</#if>
+</#list>
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -30,7 +35,10 @@ public class ${pascalName}Command {
             .execute(
                 Tuple.of(
                     loginId,
-                    <#list entity.fields as field>${camelName}.get${field.name.pascalCase}()<#sep>,${'\n'}</#list>
+<#list entity.fields as field>
+                    ${camelName}.get${field.name.pascalCase}()<#sep>,
+</#list>
+                
                 )
             )
             .onSuccess(res -> {
@@ -51,7 +59,10 @@ public class ${pascalName}Command {
                 Tuple.of(
                     loginId,
                     ${camelName}.get${pascalName}Id(),
-                    <#list entity.fields as field>${camelName}.get${field.name.pascalCase}()<#sep>,${'\n'}</#list>
+<#list entity.fields as field>
+                    ${camelName}.get${field.name.pascalCase}()<#sep>,
+</#list>
+                
                 )
             )
             .onSuccess(res -> {
@@ -114,6 +125,12 @@ public class ${pascalName}Command {
     private ${pascalName} create${pascalName}(Row row){
         return new ${pascalName}()
             .set${pascalName}Id(row.getLong("${snakeName}_id"))
-            <#list entity.fields as field>.set${field.name.pascalCase}(row.get${field.type.jvName}("${field.name.snakeCase}"))<#sep>${'\n'}</#list>;
+<#list entity.fields as field>
+<#if field.type.unknown>
+            .set${field.name.pascalCase}(${field.name.pascalCase}.valueOf(row.getString("${field.name.snakeCase}")))
+<#else>
+            .set${field.name.pascalCase}(row.get${field.type.jvName}("${field.name.snakeCase}"))
+</#if><#sep>
+</#list>;
     }
 }

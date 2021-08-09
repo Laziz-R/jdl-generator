@@ -1,0 +1,20 @@
+-- Table: task.department;
+
+-- DROP TABLE task.department;
+
+CREATE TABLE IF NOT EXISTS task.department (
+    department_id BIGSERIAL NOT NULL,
+    CONSTRAINT pk_task_department_department_id PRIMARY KEY (department_id)
+);
+
+ALTER TABLE task.department
+ADD COLUMN IF NOT EXISTS department_name TEXT,
+ADD COLUMN IF NOT EXISTS location_id BIGINT,
+
+ADD COLUMN IF NOT EXISTS created_on TIMESTAMP WITH TIME ZONE DEFAULT now(),
+ADD COLUMN IF NOT EXISTS created_by BIGINT NOT NULL,
+ADD COLUMN IF NOT EXISTS modified_on TIMESTAMP WITH TIME ZONE,
+ADD COLUMN IF NOT EXISTS modified_by BIGINT,
+ADD COLUMN IF NOT EXISTS deleted_on TIMESTAMP WITH TIME ZONE,
+ADD COLUMN IF NOT EXISTS deleted_by BIGINT,
+ADD COLUMN IF NOT EXISTS deleted BOOLEAN NOT NULL DEFAULT FALSE;

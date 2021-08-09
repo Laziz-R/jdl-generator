@@ -1,0 +1,13 @@
+{
+  "http" : {
+    "host": "localhost",
+    "port": 8080
+  },
+  "db" : {
+    "host" : "localhost",
+    "port" :  5432,
+    "name" : "some_db",
+    "user" : "some_user",
+    "pass" : "6688"
+  }
+}
