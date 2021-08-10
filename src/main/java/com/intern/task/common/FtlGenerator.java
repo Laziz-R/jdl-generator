@@ -61,7 +61,9 @@ public class FtlGenerator implements Structure {
         extendedJavaPath = "java/" + contextJson.getString("package").replaceAll("\\.", "/");
 
         jdlCode.define();
-        contextJson.put("entities", jdlCode.getEntities());
+        contextJson
+            .put("enums", jdlCode.getEnums())
+            .put("entities", jdlCode.getEntities());
 
         generateFile(new File(TEMPLATE_PATH));
         CompositeFuture.all(writtenFileNames)

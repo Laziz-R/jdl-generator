@@ -3,12 +3,14 @@ package ${package}.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import io.vertx.core.json.JsonObject;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
 * Base data contract.
@@ -107,8 +109,10 @@ public abstract class BaseDataContract {
         return gson.toJson(this);
     }
 
-    JsonSerializer<Date> ser =
+    JsonSerializer<LocalDate> ser =
         (src, typeOfSrc, context) -> src == null ? null : new JsonPrimitive(src.toString());
+    static JsonDeserializer<LocalDate> deserLocalDate = 
+        (src, typeOfSrc, context) -> src == null ? null : LocalDate.parse(src.getAsJsonPrimitive().getAsString());
 
     /**
     * Converting object.
@@ -120,7 +124,7 @@ public abstract class BaseDataContract {
             .excludeFieldsWithoutExposeAnnotation()
             .registerTypeAdapter(java.sql.Date.class, ser)
             .serializeNulls()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ")
+            .setDateFormat("yyyy-MM-dd")
             .create();
         return new JsonObject(gson.toJson(this));
     }
@@ -129,14 +133,15 @@ public abstract class BaseDataContract {
     * Converting Object.
     *
     * @param <T> - class
-        * @param param - Json to Convert
-        * @param type - class type
-        * @return
-        */
+    * @param param - Json to Convert
+    * @param type - class type
+    * @return
+    */
     public static <T extends BaseDataContract> T fromJsonObject(String param, Class<T> type) {
-            Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ")
-            .create();
-            return type.cast(gson.fromJson(param, type));
+        Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd")
+            .registerTypeAdapter(LocalDate.class, deserLocalDate)
+        .create();
+        return type.cast(gson.fromJson(param, type));
     }
 }

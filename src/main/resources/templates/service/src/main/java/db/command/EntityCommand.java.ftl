@@ -38,7 +38,7 @@ public class ${pascalName}Command {
 <#list entity.fields as field>
                     ${camelName}.get${field.name.pascalCase}()<#sep>,
 </#list>
-                
+
                 )
             )
             .onSuccess(res -> {
@@ -62,7 +62,7 @@ public class ${pascalName}Command {
 <#list entity.fields as field>
                     ${camelName}.get${field.name.pascalCase}()<#sep>,
 </#list>
-                
+
                 )
             )
             .onSuccess(res -> {
@@ -126,11 +126,14 @@ public class ${pascalName}Command {
         return new ${pascalName}()
             .set${pascalName}Id(row.getLong("${snakeName}_id"))
 <#list entity.fields as field>
+<#assign fieldPascal = field.name.pascalCase/>
+<#assign fieldSnake = field.name.snakeCase/>
+<#assign javaType = field.type.jvName/>
 <#if field.type.unknown>
-            .set${field.name.pascalCase}(${field.name.pascalCase}.valueOf(row.getString("${field.name.snakeCase}")))
-<#else>
-            .set${field.name.pascalCase}(row.get${field.type.jvName}("${field.name.snakeCase}"))
-</#if><#sep>
+            .set${fieldPascal}(row.getString("${fieldSnake}") == null
+                ? null
+                : ${fieldPascal}.valueOf(row.getString("${fieldSnake}")))<#else>
+            .set${fieldPascal}(row.get${javaType}("${fieldSnake}"))</#if><#sep>
 </#list>;
     }
 }

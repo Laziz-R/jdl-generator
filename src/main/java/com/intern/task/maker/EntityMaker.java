@@ -6,7 +6,7 @@ import java.util.List;
 import com.intern.task.model.jdl.Entity;
 import com.intern.task.model.jdl.Field;
 import com.intern.task.model.jdl.Name;
-import com.intern.task.model.jdl.Type;
+import com.intern.task.model.jdl.type.Type;
 import com.intern.task.util.CaseUtil;
 import com.intern.task.util.CodeUtil;
 
@@ -92,6 +92,8 @@ public class EntityMaker extends Maker<Entity>{
                     if(field.getValidations() == null)
                         field.setValidations(new ArrayList<>());
                     field.getValidations().add(items[i]);
+                    if(items[i].equals("required"))
+                        field.setRequired(true);
             }
         }
         return field;

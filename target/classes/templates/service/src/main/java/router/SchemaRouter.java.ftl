@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 public class ${schemaPascal}Router {
     private static Logger LOGGER = Logger.getLogger(${schemaPascal}Router.class);
+    private final String swaggerPath = "src/main/resources/webroot/swagger.yaml";
 
     private Vertx vertx;
     private ${schemaPascal}Controller ${schemaCamel}Controller;
@@ -27,7 +28,7 @@ public class ${schemaPascal}Router {
 
     public Future<Router> create(){
         Promise<Router> promise = Promise.promise();
-        RouterBuilder.create(vertx, "src/main/resources/webroot/swagger.yaml")
+        RouterBuilder.create(vertx, swaggerPath)
             .onSuccess(builder -> {
                 <#list entities as entity>
                 <#assign pascalName = entity.name.pascalCase/>

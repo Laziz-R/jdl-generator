@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${table} (
 
 ALTER TABLE ${schema}.${table}
 <#list entity.fields as field>
-ADD COLUMN IF NOT EXISTS ${field.name.snakeCase} ${field.type.pgName},
+ADD COLUMN IF NOT EXISTS ${field.name.snakeCase} ${field.type.pgName} <#if field.required>NOT NULL</#if>,
 </#list>
 
 ADD COLUMN IF NOT EXISTS created_on TIMESTAMP WITH TIME ZONE DEFAULT now(),

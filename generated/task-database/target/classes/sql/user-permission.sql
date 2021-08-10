@@ -1,0 +1,11 @@
+DO
+$$
+DECLARE
+db_user TEXT = 'some_user';
+BEGIN
+    EXECUTE 'GRANT ALL ON SCHEMA task TO ' || db_user;
+    EXECUTE 'GRANT ALL ON ALL SEQUENCES IN SCHEMA task TO ' || db_user;
+    EXECUTE 'GRANT SELECT, UPDATE, INSERT ON ALL TABLES IN SCHEMA task TO ' || db_user;
+    EXECUTE 'GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA task TO ' || db_user;
+END
+$$;

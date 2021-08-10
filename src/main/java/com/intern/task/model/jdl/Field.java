@@ -2,12 +2,15 @@ package com.intern.task.model.jdl;
 
 import java.util.List;
 
+import com.intern.task.model.jdl.type.Type;
+
 public class  Field {
     private List<String> javadoc;
     private List<String> annotations;
     private Type type;
     private Name name;
     private List<String> validations;
+    private boolean required = false;
 
     public List<String> getJavadoc() {
         return this.javadoc;
@@ -51,6 +54,15 @@ public class  Field {
 
     public Field setValidations(List<String> validations) {
         this.validations = validations;
+        return this;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public Field setRequired(boolean required) {
+        this.required = required;
         return this;
     }
 }

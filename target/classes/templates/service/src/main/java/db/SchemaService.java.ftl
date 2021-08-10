@@ -16,8 +16,6 @@ import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.PoolOptions;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 public class ${schema.pascalCase}Service {

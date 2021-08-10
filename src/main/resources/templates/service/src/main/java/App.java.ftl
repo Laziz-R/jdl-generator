@@ -14,7 +14,8 @@ import io.vertx.core.json.JsonObject;
 
 public class App extends AbstractVerticle {
     private static Logger LOGGER = Logger.getLogger(App.class);
-
+    private final String configPath = "/src/main/resources/config.json";
+    
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new App());
@@ -22,7 +23,7 @@ public class App extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        String path = System.getProperty("user.dir") + "/src/main/resources/config.json";
+        String path = System.getProperty("user.dir") + configPath;
         ConfigStoreOptions storeOptions = new ConfigStoreOptions()
             .setType("file")
             .setConfig(new JsonObject().put("path", path));

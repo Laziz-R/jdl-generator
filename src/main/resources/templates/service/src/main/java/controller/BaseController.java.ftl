@@ -107,9 +107,9 @@ private static final Logger LOGGER = Logger.getLogger("BaseController");
 
     /** constructor default. */
     public BaseController() {
-        LOGGER.info("init: Creating Base Controller - start");
+        // LOGGER.info("init: Creating Base Controller - start");
         // todo put your code here
-        LOGGER.info("init: Creating Base Controller - completed");
+        // LOGGER.info("init: Creating Base Controller - completed");
     }
 
     public String getParam(RoutingContext context, String paramName) throws RuntimeException {

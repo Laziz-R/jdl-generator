@@ -11,7 +11,7 @@ import com.intern.task.model.jdl.Enum;
 import com.intern.task.model.jdl.Field;
 import com.intern.task.model.jdl.Name;
 import com.intern.task.model.jdl.Relationship;
-import com.intern.task.model.jdl.Type;
+import com.intern.task.model.jdl.type.Type;
 import com.intern.task.util.CaseUtil;
 import com.intern.task.util.CodeUtil;
 
@@ -91,8 +91,16 @@ public class JdlCode {
             case MANY_TO_MANY:
                 Name eName = new Name(fromEntity.getName().getPascalCase() + toEntity.getName().getPascalCase(), CaseUtil.PASCAL_CASE);
                 List<Field> fields = new ArrayList<>();
-                fields.add(fromEntity.getFields().get(0));
-                fields.add(toEntity.getFields().get(0));
+                Field fromEntityId = new Field()
+                    .setName(new Name(fromEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
+                    .setType(new Type("Long"))
+                    .setRequired(true);
+                Field toEntityId = new Field()
+                    .setName(new Name(toEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
+                    .setType(new Type("Long"))
+                    .setRequired(true);;
+                fields.add(fromEntityId);
+                fields.add(toEntityId);
                 entities.add(
                     new Entity()
                         .setName(eName)
