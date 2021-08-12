@@ -1,4 +1,3 @@
-<#assign aDate = .now>
 <#assign schemaCamel = schema.camelCase/>
 <#assign schemaPascal = schema.pascalCase/>
 <#assign schemaKebab = schema.kebabCase/>
