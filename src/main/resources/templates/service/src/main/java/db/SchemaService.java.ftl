@@ -1,3 +1,4 @@
+<#assign servicePascal = "${schema.pascalCase}Service"/>
 package ${package}.db;
 
 <#list entities as entity>
@@ -20,8 +21,8 @@ import io.vertx.sqlclient.PoolOptions;
 
 import org.apache.log4j.Logger;
 
-public class ${schema.pascalCase}Service {
-    private static Logger LOGGER = Logger.getLogger(${schema.pascalCase}Service.class);
+public class ${servicePascal} {
+    private static Logger LOGGER = Logger.getLogger(${servicePascal}.class);
 
 <#list entities as entity>
     private ${entity.name.pascalCase}Command ${entity.name.camelCase}Command; 
@@ -34,22 +35,26 @@ public class ${schema.pascalCase}Service {
     * @param vertx - main vertex
     * @param config - json configuration
     */
-    public ${schema.pascalCase}Service (Vertx vertx){
+    public ${servicePascal} (Vertx vertx){
+        LOGGER.info("init: Creating ${servicePascal} - start");
         this.vertx = vertx;
         JsonObject dbConfig = vertx.getOrCreateContext().config().getJsonObject("db");
         PgConnectOptions connectOptions = new PgConnectOptions()
             .setPort(dbConfig.getInteger("port"))
             .setHost(dbConfig.getString("host"))
-            .setDatabase(dbConfig.getString("name"))
+            .setDatabase(dbConfig.getString("db_name"))
             .setUser(dbConfig.getString("user"))
-            .setPassword(dbConfig.getString("pass"));
+            .setPassword(dbConfig.getString("password"));
             
-        PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
+        PoolOptions poolOptions = new PoolOptions().setMaxSize(dbConfig.getInteger("max_pool_size"));
         PgPool client = PgPool.pool(vertx, connectOptions, poolOptions);
         <#list entities as entity>
         this.${entity.name.camelCase}Command = new ${entity.name.pascalCase}Command(client); 
         </#list>
+
+        LOGGER.info("init: Creating ${servicePascal} - completed");
     }
+
 <#list entities as entity>
 <#assign tableCamel = entity.name.camelCase/>
 <#assign tablePascal = entity.name.pascalCase/>

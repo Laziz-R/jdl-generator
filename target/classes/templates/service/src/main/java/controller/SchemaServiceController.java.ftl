@@ -27,7 +27,6 @@ import ${package}.need.UserCredentials;
 
 import org.apache.log4j.Logger;
 
-
 public class ${controllerPascal} extends BaseController{
     private static Logger LOGGER = Logger.getLogger(${controllerPascal}.class);
 

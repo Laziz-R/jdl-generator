@@ -1,11 +1,16 @@
-<#assign camelName = entity.name.camelCase/>
-<#assign pascalName = entity.name.pascalCase/>
-<#assign snakeName = entity.name.snakeCase/>
-<#assign tableName = "${schema.snakeCase}.${snakeName}"/>
+<#assign tableCamel = entity.name.camelCase/>
+<#assign tablePascal = entity.name.pascalCase/>
+<#assign tableSnake = entity.name.snakeCase/>
+<#assign tableUri = "${schema.snakeCase}.${tableSnake}"/>
+<#assign addFunction = "${tableCamel}AddCommand"/>
+<#assign deleteFunction = "${tableCamel}DeleteCommand"/>
+<#assign updateFunction = "${tableCamel}UpdateCommand"/>
+<#assign getFunction = "${tableCamel}GetCommand"/>
+<#assign getListFunction = "${tableCamel}GetListCommand"/>
 package ${package}.db.command;
 
-import ${package}.model.${pascalName};
-import ${package}.model.list.${pascalName}List;
+import ${package}.model.${tablePascal};
+import ${package}.model.list.${tablePascal}List;
 <#list entity.fields as field>
 <#if field.type.unknown>
 import ${package}.model.${field.name.pascalCase};
@@ -20,68 +25,146 @@ import io.vertx.sqlclient.Tuple;
 
 import org.apache.log4j.Logger;
 
-public class ${pascalName}Command {
-    private static Logger LOGGER = Logger.getLogger(${pascalName}Command.class);
+public class ${tablePascal}Command {
+    private static Logger LOGGER = Logger.getLogger(${tablePascal}Command.class);
     private PgPool client;
 
-    public ${pascalName}Command(PgPool client) {
+    /**
+    * Instantiates a new ${tablePascal}Command.
+    *
+    * @param client the client
+    */
+    public ${tablePascal}Command(PgPool client) {
+        super();
+        LOGGER.info("init: Creating ${tablePascal}Command - start");
         this.client = client;
+        LOGGER.info("init: Creating ${tablePascal}Command - completed");
     }
 
-    public Future<Long> ${camelName}AddCommand(Long loginId, ${pascalName} ${camelName}) {
+    /**
+    * Add ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @param ${tableCamel} the ${tableCamel}
+    * @return the future
+    */
+    public Future<Long> ${addFunction}(Long loginId, ${tablePascal} ${tableCamel}) {
+        LOGGER.info("info: ${addFunction} - start");
         Promise<Long> promise = Promise.promise();
         client
-            .preparedQuery("SELECT ${tableName}_add(<#list 1..entity.fields?size+1 as i>$${i}<#sep>, </#list>) \"${snakeName}_id\";")
+            .preparedQuery("SELECT ${tableUri}_add(<#list 1..entity.fields?size+1 as i>$${i}<#sep>, </#list>) \"${tableSnake}_id\";")
             .execute(
                 Tuple.of(
                     loginId,
 <#list entity.fields as field>
-                    ${camelName}.get${field.name.pascalCase}()<#sep>,
+                    ${tableCamel}.get${field.name.pascalCase}()<#sep>,
 </#list>
 
                 )
             )
             .onSuccess(res -> {
-                res.forEach(row -> promise.complete(row.getLong("${snakeName}_id")));
-                if(promise.tryComplete()){
-                    LOGGER.info("No data!");
+                System.out.println("Got " + res.size() + " rows ");
+                for (Row row : res) {
+                  LOGGER.info("info: handle query ${addFunction} result - ok");
+                  promise.complete(row.getLong("${tableSnake}_id"));
+                }
+
+                if (promise.tryComplete()) {
+                  LOGGER.info("info: handle query ${addFunction} result - no result");
                 }
             })
-            .onFailure(promise::fail);
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${addFunction} result - failed");
+                promise.fail(ar.cause());
+            });
         return promise.future();
     }
 
-    public Future<Long> ${camelName}UpdateCommand(Long loginId, ${pascalName} ${camelName}) {
+    /**
+    * Update ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @param ${tableCamel} the ${tableCamel}
+    * @return the future
+    */
+    public Future<Long> ${updateFunction}(Long loginId, ${tablePascal} ${tableCamel}) {
+        LOGGER.info("info: ${updateFunction} - start");
         Promise<Long> promise = Promise.promise();
         client
-            .preparedQuery("SELECT ${tableName}_update(<#list 1..entity.fields?size+2 as i>$${i}<#sep>, </#list>) \"${snakeName}_id\";")
+            .preparedQuery("SELECT ${tableUri}_update(<#list 1..entity.fields?size+2 as i>$${i}<#sep>, </#list>) \"${tableSnake}_id\";")
             .execute(
                 Tuple.of(
                     loginId,
-                    ${camelName}.get${pascalName}Id(),
+                    ${tableCamel}.get${tablePascal}Id(),
 <#list entity.fields as field>
-                    ${camelName}.get${field.name.pascalCase}()<#sep>,
+                    ${tableCamel}.get${field.name.pascalCase}()<#sep>,
 </#list>
 
                 )
             )
             .onSuccess(res -> {
-                res.forEach(row -> promise.complete(row.getLong("${snakeName}_id")));
-                if(promise.tryComplete()){
-                    LOGGER.info("No data!");
+                System.out.println("Got " + res.size() + " rows ");
+                for (Row row : res) {
+                  LOGGER.info("info: handle query ${updateFunction} result - ok");
+                  promise.complete(row.getLong("${tableSnake}_id"));
+                }
+
+                if (promise.tryComplete()) {
+                  LOGGER.info("info: handle query ${updateFunction} result - no result");
                 }
             })
-            .onFailure(promise::fail);
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${updateFunction} result - failed");
+                promise.fail(ar.cause());
+            });
         return promise.future();
     }
 
-    public Future<Long> ${camelName}DeleteCommand(Long loginId, Long ${camelName}Id) {
+    /**
+    * Delete ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @param ${tableCamel}Id the ${tableCamel} id
+    * @return the future
+    */
+    public Future<Long> ${deleteFunction}(Long loginId, Long ${tableCamel}Id) {
+        LOGGER.info("info: ${deleteFunction} - start");
         Promise<Long> promise = Promise.promise();
         client
-            .preparedQuery("SELECT ${tableName}_delete($1, $2) \"${snakeName}_id\";")
-            .execute(Tuple.of(loginId, ${camelName}Id))
+            .preparedQuery("SELECT ${tableUri}_delete($1, $2) \"${tableSnake}_id\";")
+            .execute(Tuple.of(loginId, ${tableCamel}Id))
             .onSuccess(res -> {
-                res.forEach(row -> promise.complete(row.getLong("${snakeName}_id")));
+                System.out.println("Got " + res.size() + " rows ");
+                for (Row row : res) {
+                  LOGGER.info("info: handle query ${deleteFunction} result - ok");
+                  promise.complete(row.getLong("${tableSnake}_id"));
+                }
+
+                if (promise.tryComplete()) {
+                  LOGGER.info("info: handle query ${deleteFunction} result - no result");
+                }
+            })
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${deleteFunction} result - failed");
+                promise.fail(ar.cause());
+            });
+        return promise.future();
+    }
+
+    /**
+    * Get ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @param ${tableCamel}Id the ${tableCamel} id
+    * @return the ${tableCamel} command
+    */
+    public Future<${tablePascal}> ${tableCamel}GetCommand(Long loginId, Long ${tableCamel}Id) {
+        Promise<${tablePascal}> promise = Promise.promise();
+        client
+            .preparedQuery("SELECT * FROM ${tableUri}_get($1, $2);")
+            .execute(Tuple.of(loginId, ${tableCamel}Id))
+            .onSuccess(res -> {
+                res.forEach(row -> promise.complete(create${tablePascal}(row)));
                 if(promise.tryComplete()){
                     LOGGER.info("No data!");
                 }
@@ -90,30 +173,15 @@ public class ${pascalName}Command {
         return promise.future();
     }
 
-    public Future<${pascalName}> ${camelName}GetCommand(Long loginId, Long ${camelName}Id) {
-        Promise<${pascalName}> promise = Promise.promise();
+    public Future<${tablePascal}List> ${tableCamel}GetListCommand(Long loginId, Long skip, Long pageSize) {
+        Promise<${tablePascal}List> promise = Promise.promise();
         client
-            .preparedQuery("SELECT * FROM ${tableName}_get($1, $2);")
-            .execute(Tuple.of(loginId, ${camelName}Id))
-            .onSuccess(res -> {
-                res.forEach(row -> promise.complete(create${pascalName}(row)));
-                if(promise.tryComplete()){
-                    LOGGER.info("No data!");
-                }
-            })
-            .onFailure(promise::fail);
-        return promise.future();
-    }
-
-    public Future<${pascalName}List> ${camelName}GetListCommand(Long loginId, Long skip, Long pageSize) {
-        Promise<${pascalName}List> promise = Promise.promise();
-        client
-            .preparedQuery("SELECT * FROM ${tableName}_get_list($1, $2, $3);")
+            .preparedQuery("SELECT * FROM ${tableUri}_get_list($1, $2, $3);")
             .execute(Tuple.of(loginId, skip, pageSize))
             .onSuccess(res -> {
-                ${pascalName}List ${camelName}List = new ${pascalName}List();
-                res.forEach(row -> ${camelName}List.add(create${pascalName}(row)));
-                promise.complete(${camelName}List);
+                ${tablePascal}List ${tableCamel}List = new ${tablePascal}List();
+                res.forEach(row -> ${tableCamel}List.add(create${tablePascal}(row)));
+                promise.complete(${tableCamel}List);
                 if(promise.tryComplete()){
                     LOGGER.info("No data!");
                 }
@@ -122,9 +190,9 @@ public class ${pascalName}Command {
         return promise.future();
     }
 
-    private ${pascalName} create${pascalName}(Row row){
-        return new ${pascalName}()
-            .set${pascalName}Id(row.getLong("${snakeName}_id"))
+    private ${tablePascal} create${tablePascal}(Row row){
+        return new ${tablePascal}()
+            .set${tablePascal}Id(row.getLong("${tableSnake}_id"))
 <#list entity.fields as field>
 <#assign fieldPascal = field.name.pascalCase/>
 <#assign fieldSnake = field.name.snakeCase/>
