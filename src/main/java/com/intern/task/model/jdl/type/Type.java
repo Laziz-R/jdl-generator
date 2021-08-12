@@ -4,7 +4,7 @@ import com.intern.task.model.jdl.type.Type;
 
 public class Type {
     private String jvName;
-    private String pgName;
+    private String  pgName;
     private String swName;
     private String library;
     private boolean unknown = false;

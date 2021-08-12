@@ -129,11 +129,14 @@ public class ${pascalName}Command {
 <#assign fieldPascal = field.name.pascalCase/>
 <#assign fieldSnake = field.name.snakeCase/>
 <#assign javaType = field.type.jvName/>
+<#if !field?has_next><#assign post=';'/></#if>
 <#if field.type.unknown>
             .set${fieldPascal}(row.getString("${fieldSnake}") == null
                 ? null
-                : ${fieldPascal}.valueOf(row.getString("${fieldSnake}")))<#else>
-            .set${fieldPascal}(row.get${javaType}("${fieldSnake}"))</#if><#sep>
-</#list>;
+                : ${fieldPascal}.valueOf(row.getString("${fieldSnake}")))${post!''}
+<#else>
+            .set${fieldPascal}(row.get${javaType}("${fieldSnake}"))${post!''}
+</#if>
+</#list>
     }
 }

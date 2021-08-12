@@ -11,6 +11,8 @@ import io.vertx.core.json.JsonObject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
 * Base data contract.
@@ -109,10 +111,12 @@ public abstract class BaseDataContract {
         return gson.toJson(this);
     }
 
-    JsonSerializer<LocalDate> ser =
+    JsonSerializer<Date> ser =
         (src, typeOfSrc, context) -> src == null ? null : new JsonPrimitive(src.toString());
-    static JsonDeserializer<LocalDate> deserLocalDate = 
-        (src, typeOfSrc, context) -> src == null ? null : LocalDate.parse(src.getAsJsonPrimitive().getAsString());
+    static JsonDeserializer<LocalDate> deserLD = 
+        (src, typeOfSrc, context) -> src == null ? null : LocalDate.parse(src.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE);
+    static JsonDeserializer<OffsetDateTime> deserODT = 
+        (src, typeOfSrc, context) -> src == null ? null : OffsetDateTime.parse(src.getAsString(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
     /**
     * Converting object.
@@ -122,9 +126,9 @@ public abstract class BaseDataContract {
     public JsonObject toJsonObject() {
         Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ")
             .registerTypeAdapter(java.sql.Date.class, ser)
             .serializeNulls()
-            .setDateFormat("yyyy-MM-dd")
             .create();
         return new JsonObject(gson.toJson(this));
     }
@@ -139,7 +143,7 @@ public abstract class BaseDataContract {
     */
     public static <T extends BaseDataContract> T fromJsonObject(String param, Class<T> type) {
         Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")
+            .setDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ")
             .registerTypeAdapter(LocalDate.class, deserLocalDate)
         .create();
         return type.cast(gson.fromJson(param, type));

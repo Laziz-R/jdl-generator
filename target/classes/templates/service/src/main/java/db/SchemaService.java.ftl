@@ -5,6 +5,8 @@ import ${package}.db.command.${entity.name.pascalCase}Command;
 </#list>
 <#list entities as entity>
 import ${package}.model.${entity.name.pascalCase};
+</#list>
+<#list entities as entity>
 import ${package}.model.list.${entity.name.pascalCase}List;
 </#list>
 import ${package}.need.UserCredentials;
@@ -26,6 +28,12 @@ public class ${schema.pascalCase}Service {
 </#list>
     private Vertx vertx;
 
+    /**
+    * Constructor.
+    *
+    * @param vertx - main vertex
+    * @param config - json configuration
+    */
     public ${schema.pascalCase}Service (Vertx vertx){
         this.vertx = vertx;
         JsonObject dbConfig = vertx.getOrCreateContext().config().getJsonObject("db");
@@ -43,34 +51,34 @@ public class ${schema.pascalCase}Service {
         </#list>
     }
 <#list entities as entity>
-<#assign camelName = entity.name.camelCase/>
-<#assign pascalName = entity.name.pascalCase/>
+<#assign tableCamel = entity.name.camelCase/>
+<#assign tablePascal = entity.name.pascalCase/>
 
-    //region ${pascalName}
+    //region ${tablePascal}
 
-    public Future<Long> ${camelName}Add(UserCredentials uc, ${pascalName} ${camelName}) {
-        return this.${camelName}Command
-            .${camelName}AddCommand(uc.getLoginId(), ${camelName});
+    public Future<Long> ${tableCamel}Add(UserCredentials uc, ${tablePascal} ${tableCamel}) {
+        return this.${tableCamel}Command
+            .${tableCamel}AddCommand(uc.getLoginId(), ${tableCamel});
     }
     
-    public Future<Long> ${camelName}Update(UserCredentials uc, ${pascalName} ${camelName}) {
-        return this.${camelName}Command
-            .${camelName}UpdateCommand(uc.getLoginId(), ${camelName});
+    public Future<Long> ${tableCamel}Update(UserCredentials uc, ${tablePascal} ${tableCamel}) {
+        return this.${tableCamel}Command
+            .${tableCamel}UpdateCommand(uc.getLoginId(), ${tableCamel});
     }
 
-    public Future<Long> ${camelName}Delete(UserCredentials uc, Long ${camelName}Id) {
-        return this.${camelName}Command
-            .${camelName}DeleteCommand(uc.getLoginId(), ${camelName}Id);
+    public Future<Long> ${tableCamel}Delete(UserCredentials uc, Long ${tableCamel}Id) {
+        return this.${tableCamel}Command
+            .${tableCamel}DeleteCommand(uc.getLoginId(), ${tableCamel}Id);
     }
 
-    public Future<${pascalName}> ${camelName}Get(UserCredentials uc, Long ${camelName}Id) {
-        return this.${camelName}Command
-            .${camelName}GetCommand(uc.getLoginId(), ${camelName}Id);
+    public Future<${tablePascal}> ${tableCamel}Get(UserCredentials uc, Long ${tableCamel}Id) {
+        return this.${tableCamel}Command
+            .${tableCamel}GetCommand(uc.getLoginId(), ${tableCamel}Id);
     }
 
-    public Future<${pascalName}List> ${camelName}GetList(UserCredentials uc, Long skip, Long pageSize) {
-        return this.${camelName}Command
-            .${camelName}GetListCommand(uc.getLoginId(), skip, pageSize);
+    public Future<${tablePascal}List> ${tableCamel}GetList(UserCredentials uc, Long skip, Long pageSize) {
+        return this.${tableCamel}Command
+            .${tableCamel}GetListCommand(uc.getLoginId(), skip, pageSize);
     }
     
     //endregion
