@@ -1,5 +1,0 @@
--- SCHEMA: task
-
--- DROP SCHEMA task;
-
-CREATE SCHEMA IF NOT EXISTS task;
