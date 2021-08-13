@@ -85,7 +85,12 @@ paths:
         - "${schemaPascal} ${tablePascal}"
       operationId:  ${schemaCamel}${tablePascal}GetAll
       requestBody:
-        $ref: "#/components/requestBodies/RequestListParams"
+        description: "Default get all list"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request"
       responses:
         200:
           $ref: "#/components/responses/Success"
@@ -98,7 +103,7 @@ paths:
         - "${schemaPascal} ${tablePascal}"
       operationId:  ${schemaCamel}${tablePascal}GetSummaryList
       requestBody:
-        $ref: "#/components/requestBodies/RequestListParams"
+        $ref: "#/components/requestBodies/RequestSortFilterList"
       responses:
         200:
           $ref: "#/components/responses/Success"
@@ -206,6 +211,27 @@ components:
           example: 20
 
   requestBodies:
+    RequestSortFilterList:
+      description: "Standard get ordered sorted list Request"
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Request'
+              - type: object
+            properties:
+              params:
+                allOf:
+                  - type: object
+                    properties:
+                      sort_expression:
+                        type: string
+                        nullable: true
+                      filter_condition:
+                        type: string
+                        nullable: true
+                  - $ref: '#/components/schemas/listParams'
     RequestListParams:
       description: "Standard get list"
       required: true
