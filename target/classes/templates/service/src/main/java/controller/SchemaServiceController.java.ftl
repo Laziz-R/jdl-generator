@@ -380,6 +380,77 @@ public class ${controllerPascal} extends BaseController{
         }
     }
 
+    /**
+    * ${tablePascal}GetAll handler.
+    *
+    * @param context - routing context
+    */
+    public void handle${tablePascal}GetAll(RoutingContext context) {
+        try {
+            LOGGER.info("call: ${controllerPascal} /${schemaKebab}/${tableKebab}/get-all Handler");
+            JsonObject auth = context.get("auth");
+            UserCredentials credentials = new UserCredentials().setLoginId(auth.getLong("user_id"));
+
+            Future<${tablePascal}List> future${tablePascal}List = ${serviceCamel}.${tableCamel}GetAll(credentials);
+            future${tablePascal}List
+                .onSuccess(res -> {
+                    ${tablePascal}List ${tableCamel}List = res;
+                    if (${tableCamel}List == null) {
+                        throw new ApplicationRuntimeException(
+                            "${schemaPascal} ${tablePascal}GetAll failed.",
+                            Error.DATABASE
+                        );
+                    }
+                    this.respondJsonResult(context, 200, 1L, new JsonObject().put(${tableCamel}List.getLabel(), ${tableCamel}List.toJsonArray()), null);
+                })
+                .onFailure(ar -> {
+                    LOGGER.error(ar.getMessage());
+                    context.fail(ar);
+                });
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            context.fail(e);
+        }
+    }
+
+    /**
+    * ${tablePascal}GetSummaryList handler.
+    *
+    * @param context - routing context
+    */
+    public void handle${tablePascal}GetSummaryList(RoutingContext context) {
+        try {
+            LOGGER.info("call: ${controllerPascal} /${schemaKebab}/${tableKebab}/get-summary-list Handler");
+            JsonObject auth = context.get("auth");
+            UserCredentials credentials = new UserCredentials().setLoginId(auth.getLong("user_id"));
+
+            JsonObject params = this.getBodyJsonObjectParam(context, "params");
+            String sortExpression = params.getLong("sort_expression");
+            String sortExpression = params.getLong("filter_condition");
+            Long pageSize = params.getLong("page_size");
+            Long skip = params.getLong("skip_count");
+
+            Future<${tablePascal}List> future${tablePascal}List = ${serviceCamel}.${tableCamel}GetSummaryList(credentials, sortExpression, filterCondition, skip, pageSize);
+            future${tablePascal}List
+                .onSuccess(res -> {
+                    ${tablePascal}List ${tableCamel}List = res;
+                    if (${tableCamel}List == null) {
+                        throw new ApplicationRuntimeException(
+                            "${schemaPascal} ${tablePascal}GetSummaryList failed.",
+                            Error.DATABASE
+                        );
+                    }
+                    this.respondJsonResult(context, 200, 1L, new JsonObject().put(${tableCamel}List.getLabel(), ${tableCamel}List.toJsonArray()), null);
+                })
+                .onFailure(ar -> {
+                    LOGGER.error(ar.getMessage());
+                    context.fail(ar);
+                });
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            context.fail(e);
+        }
+    }
     // endregion
 
     </#list>

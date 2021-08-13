@@ -1,22 +1,22 @@
 <#assign aDate = .now>
 <#assign schema = schema.snakeCase/>
 <#assign table = entity.name.snakeCase/>
-<#assign function_name = "${schema}.${table}_get"/>
-DROP FUNCTION IF EXISTS ${function_name};
-CREATE FUNCTION ${function_name}(
+<#assign functionName = "${schema}.${table}_get"/>
+DROP FUNCTION IF EXISTS ${functionName};
+CREATE FUNCTION ${functionName}(
     in_login_id BIGINT,
     in_${table}_id BIGINT
-    )
+)
 RETURNS TABLE (
     ${table}_id BIGINT,
 <#list entity.fields as field>
     ${field.name.snakeCase} ${field.type.pgName}<#sep>,
 </#list>
-    )
+)
 AS $$
 /******************************************************************************
-**		File: ${function_name}.sql
-**		Name: ${function_name}
+**		File: ${functionName}.sql
+**		Name: ${functionName}
 **		Desc: Get ${table} data
 *******************************************************************************
 **		Auth: ${author}
@@ -31,22 +31,23 @@ AS $$
 *******************************************************************************
 **/
 
-    DECLARE FN_NAME CONSTANT TEXT := '${function_name}';
+DECLARE
+    FN_NAME CONSTANT TEXT := '${functionName}';
     STEP_INDEX INTEGER;
     STEP_DESC VARCHAR(500);
 BEGIN
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-  STEP_INDEX := 0;
-  STEP_DESC := FN_NAME || ': Initialized ...';
-  RAISE NOTICE '%', STEP_DESC;
+    STEP_INDEX := 0;
+    STEP_DESC := FN_NAME || ': Initialized ...';
+    RAISE NOTICE '%', STEP_DESC;
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-  STEP_INDEX := 10;
-  STEP_DESC := FN_NAME || ': Validation check permission';
-  RAISE NOTICE '%', STEP_DESC;
+    STEP_INDEX := 10;
+    STEP_DESC := FN_NAME || ': Validation check permission';
+    RAISE NOTICE '%', STEP_DESC;
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 -- to do need to complete this step
 
@@ -56,18 +57,18 @@ BEGIN
     END IF;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-  STEP_INDEX := 20;
-  RAISE NOTICE '%', FN_NAME || ': Select Data';
+    STEP_INDEX := 20;
+    RAISE NOTICE '%', FN_NAME || ': Select Data';
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-  RETURN QUERY
-    SELECT
-        ${table}.${table}_id,
+    RETURN QUERY
+        SELECT
+            ${table}.${table}_id,
 <#list entity.fields as field>
-        ${table}.${field.name.snakeCase}<#sep>,
+            ${table}.${field.name.snakeCase}<#sep>,
 </#list>
-    FROM ${schema}.${table}
-    WHERE
-        ${table}.${table}_id = in_${table}_id
-        AND NOT ${table}.deleted;
+        FROM ${schema}.${table}
+        WHERE
+            ${table}.${table}_id = in_${table}_id
+            AND NOT ${table}.deleted;
 END;
 $$ LANGUAGE plpgsql;

@@ -1,17 +1,17 @@
 <#assign aDate = .now>
 <#assign schema = schema.snakeCase/>
 <#assign table = entity.name.snakeCase/>
-<#assign function_name = "${schema}.${table}_delete"/>
-DROP FUNCTION IF EXISTS ${function_name};
-CREATE FUNCTION ${function_name}(
+<#assign functionName = "${schema}.${table}_delete"/>
+DROP FUNCTION IF EXISTS ${functionName};
+CREATE FUNCTION ${functionName}(
   in_login_id BIGINT,
   in_${table}_id BIGINT
-  )
+)
 RETURNS BIGINT
 AS $$
 /******************************************************************************
-**		File: ${function_name}.sql
-**		Name: ${function_name}
+**		File: ${functionName}.sql
+**		Name: ${functionName}
 **		Desc: delete ${table}
 *******************************************************************************
 **		Auth: ${author}
@@ -26,7 +26,9 @@ AS $$
 **		Return values: ${table} id.
 *******************************************************************************
 **/
-  DECLARE FN_NAME CONSTANT TEXT := '${function_name}';
+
+DECLARE
+  FN_NAME CONSTANT TEXT := '${functionName}';
   STEP_INDEX INTEGER;
   STEP_DESC VARCHAR(500);
   result BIGINT;

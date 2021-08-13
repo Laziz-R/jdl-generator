@@ -47,7 +47,7 @@ public class FtlGenerator implements Structure {
                 this.contextJson.put(p.getKey(), p.getValue());
             }
         });
-        this.contextJson.put("package", contextJson.getString("group_id") + "." + schema.getSnakeCase());
+        this.contextJson.put("package", contextJson.getString("groupId") + "." + schema.getSnakeCase());
 
         FileUpload fUp = ctx.fileUploads().iterator().next();
         String source = vertx.fileSystem().readFileBlocking(fUp.uploadedFileName()).toString();

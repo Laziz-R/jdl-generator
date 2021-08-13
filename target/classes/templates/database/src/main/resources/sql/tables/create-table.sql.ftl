@@ -1,15 +1,16 @@
 <#assign table = entity.name.snakeCase/>
 <#assign schema = schema.snakeCase/>
--- Table: ${schema}.${table};
+<#assign tableUri = "${schema}.${table}">
+-- Table: ${tableUri};
 
--- DROP TABLE ${schema}.${table};
+-- DROP TABLE ${tableUri};
 
-CREATE TABLE IF NOT EXISTS ${schema}.${table} (
+CREATE TABLE IF NOT EXISTS ${tableUri} (
     ${table}_id BIGSERIAL NOT NULL,
     CONSTRAINT pk_${schema}_${table}_${table}_id PRIMARY KEY (${table}_id)
 );
 
-ALTER TABLE ${schema}.${table}
+ALTER TABLE ${tableUri}
 <#list entity.fields as field>
 ADD COLUMN IF NOT EXISTS ${field.name.snakeCase} ${field.type.pgName} <#if field.required>NOT NULL</#if>,
 </#list>

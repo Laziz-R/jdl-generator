@@ -1,12 +1,10 @@
 <#assign aDate = .now>
 <#assign schema = schema.snakeCase/>
 <#assign table = entity.name.snakeCase/>
-<#assign functionName = "${schema}.${table}_get_list"/>
+<#assign functionName = "${schema}.${table}_get_all"/>
 DROP FUNCTION IF EXISTS ${functionName};
 CREATE FUNCTION ${functionName}(
-  in_login_id BIGINT,
-  in_skip BIGINT,
-  in_page_size BIGINT
+  in_login_id BIGINT
 )
 RETURNS TABLE (
   ${table}_id BIGINT,
@@ -70,8 +68,6 @@ BEGIN
 </#list>
     FROM ${schema}.${table}
     WHERE
-        NOT ${table}.deleted
-    OFFSET in_skip
-    LIMIT in_page_size;
+        NOT ${table}.deleted;
 END;
 $$ LANGUAGE plpgsql;

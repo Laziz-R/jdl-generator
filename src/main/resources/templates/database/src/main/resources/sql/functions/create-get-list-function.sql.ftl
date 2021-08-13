@@ -1,23 +1,23 @@
 <#assign aDate = .now>
 <#assign schema = schema.snakeCase/>
 <#assign table = entity.name.snakeCase/>
-<#assign function_name = "${schema}.${table}_get_list"/>
-DROP FUNCTION IF EXISTS ${function_name};
-CREATE FUNCTION ${function_name}(
-    in_login_id BIGINT,
-    in_skip BIGINT,
-    in_page_size BIGINT
-    )
+<#assign functionName = "${schema}.${table}_get_list"/>
+DROP FUNCTION IF EXISTS ${functionName};
+CREATE FUNCTION ${functionName}(
+  in_login_id BIGINT,
+  in_skip BIGINT,
+  in_page_size BIGINT
+)
 RETURNS TABLE (
-    ${table}_id BIGINT,
+  ${table}_id BIGINT,
 <#list entity.fields as field>
-    ${field.name.snakeCase} ${field.type.pgName}<#sep>,
+  ${field.name.snakeCase} ${field.type.pgName}<#sep>,
 </#list>
 )
 AS $$
 /******************************************************************************
-**		File: ${function_name}.sql
-**		Name: ${function_name}
+**		File: ${functionName}.sql
+**		Name: ${functionName}
 **		Desc: Get ${table}s data
 *******************************************************************************
 **		Auth: ${author}
@@ -33,7 +33,8 @@ AS $$
 *******************************************************************************
 **/
 
-  DECLARE FN_NAME CONSTANT TEXT := '${function_name}';
+DECLARE
+  FN_NAME CONSTANT TEXT := '${functionName}';
   STEP_INDEX INTEGER;
   STEP_DESC VARCHAR(500);
 BEGIN
@@ -52,10 +53,10 @@ BEGIN
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 -- to do need to complete this step
 
-    IF in_login_id IS NULL OR in_login_id < 0 THEN
-        RAISE EXCEPTION 'Nonexistent ID --> % step % %', in_login_id, STEP_INDEX, STEP_DESC
-        USING HINT = 'Please check your login';
-    END IF;
+  IF in_login_id IS NULL OR in_login_id < 0 THEN
+      RAISE EXCEPTION 'Nonexistent ID --> % step % %', in_login_id, STEP_INDEX, STEP_DESC
+      USING HINT = 'Please check your login';
+  END IF;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
   STEP_INDEX := 20;

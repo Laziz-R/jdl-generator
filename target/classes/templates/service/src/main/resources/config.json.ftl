@@ -8,9 +8,9 @@
     "db": {
       "host": "localhost",
       "port": 5432,
-      "db_name": "${db_name}",
-      "user": "${db_user}",
-      "password": "${db_password}",
+      "db_name": "${dbName}",
+      "user": "${dbUser}",
+      "password": "${dbPassword}",
       "max_pool_size": 30
     }
   },

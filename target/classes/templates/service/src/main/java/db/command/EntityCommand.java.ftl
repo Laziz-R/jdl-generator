@@ -5,8 +5,10 @@
 <#assign addFunction = "${tableCamel}AddCommand"/>
 <#assign deleteFunction = "${tableCamel}DeleteCommand"/>
 <#assign updateFunction = "${tableCamel}UpdateCommand"/>
-<#assign getFunction = "${tableCamel}GetCommand"/>
+<#assign getFunction = "${getFunction}"/>
 <#assign getListFunction = "${tableCamel}GetListCommand"/>
+<#assign getAllFunction = "${tableCamel}GetAllCommand"/>
+<#assign getSummaryListFunction = "${tableCamel}GetSummaryListCommand"/>
 package ${package}.db.command;
 
 import ${package}.model.${tablePascal};
@@ -158,35 +160,156 @@ public class ${tablePascal}Command {
     * @param ${tableCamel}Id the ${tableCamel} id
     * @return the ${tableCamel} command
     */
-    public Future<${tablePascal}> ${tableCamel}GetCommand(Long loginId, Long ${tableCamel}Id) {
+    public Future<${tablePascal}> ${getFunction}(Long loginId, Long ${tableCamel}Id) {
+        LOGGER.info("info: ${getFunction} - start");
         Promise<${tablePascal}> promise = Promise.promise();
         client
             .preparedQuery("SELECT * FROM ${tableUri}_get($1, $2);")
             .execute(Tuple.of(loginId, ${tableCamel}Id))
             .onSuccess(res -> {
-                res.forEach(row -> promise.complete(create${tablePascal}(row)));
-                if(promise.tryComplete()){
-                    LOGGER.info("No data!");
+                try{
+                    System.out.println("Got " + res.size() + " rows ");
+                    for (Row row : res) {
+                        ${tablePascal} ${tableCamel} = create${tablePascal}(row);
+                        LOGGER.info("info: handle query ${getFunction} result - ok");
+                        promise.complete(${tableCamel});
+                    }
+
+                    if (promise.tryComplete()) {
+                      LOGGER.info("info: handle query ${getFunction} result - no result");
+                    }
+                } catch(Exception e){
+                    LOGGER.info("info: handle query ${getFunction} result - no result");
+                    promise.fail(e);
                 }
             })
-            .onFailure(promise::fail);
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${getFunction} result - failed");
+                promise.fail(ar.cause());
+            });
         return promise.future();
     }
 
-    public Future<${tablePascal}List> ${tableCamel}GetListCommand(Long loginId, Long skip, Long pageSize) {
+    /**
+    * GetList ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @param skip the skip
+    * @param pageSize the page size
+    * @return the ${tableCamel} command
+    */
+    public Future<${tablePascal}List> ${getListFunction}(Long loginId, Long skip, Long pageSize) {
+        LOGGER.info("info: ${getListFunction} - start");
         Promise<${tablePascal}List> promise = Promise.promise();
         client
             .preparedQuery("SELECT * FROM ${tableUri}_get_list($1, $2, $3);")
             .execute(Tuple.of(loginId, skip, pageSize))
             .onSuccess(res -> {
                 ${tablePascal}List ${tableCamel}List = new ${tablePascal}List();
-                res.forEach(row -> ${tableCamel}List.add(create${tablePascal}(row)));
-                promise.complete(${tableCamel}List);
-                if(promise.tryComplete()){
-                    LOGGER.info("No data!");
+                try{
+                    System.out.println("Got " + res.size() + " rows ");
+                    for (Row row : res) {
+                        ${tablePascal} ${tableCamel} = create${tablePascal}(row);
+                        LOGGER.info("info: handle query ${getListFunction} result - ok");
+                        ${tableCamel}List.add(${tableCamel});
+                    }
+
+                    promise.complete(${tableCamel});
+
+                    if (promise.tryComplete()) {
+                      LOGGER.info("info: handle query ${getListFunction} result - no result");
+                    }
+                } catch(Exception e){
+                    LOGGER.info("info: handle query ${getListFunction} result - no result");
+                    promise.fail(e);
                 }
             })
-            .onFailure(promise::fail);
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${getListFunction} result - failed");
+                promise.fail(ar.cause());
+            });
+        return promise.future();
+    }
+
+    /**
+    * GetAll ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @return the ${tableCamel} command
+    */
+    public Future<${tablePascal}List> ${getAllFunction}(Long loginId) {
+        LOGGER.info("info: ${getAllFunction} - start");
+        Promise<${tablePascal}List> promise = Promise.promise();
+        client
+            .preparedQuery("SELECT * FROM ${tableUri}_get_all($1);")
+            .execute(Tuple.of(loginId))
+            .onSuccess(res -> {
+                ${tablePascal}List ${tableCamel}List = new ${tablePascal}List();
+                try{
+                    System.out.println("Got " + res.size() + " rows ");
+                    for (Row row : res) {
+                        ${tablePascal} ${tableCamel} = create${tablePascal}(row);
+                        LOGGER.info("info: handle query ${getAllFunction} result - ok");
+                        ${tableCamel}List.add(${tableCamel});
+                    }
+
+                    promise.complete(${tableCamel});
+
+                    if (promise.tryComplete()) {
+                      LOGGER.info("info: handle query ${getAllFunction} result - no result");
+                    }
+                } catch(Exception e){
+                    LOGGER.info("info: handle query ${getAllFunction} result - no result");
+                    promise.fail(e);
+                }
+            })
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${getListFunction} result - failed");
+                promise.fail(ar.cause());
+            });
+        return promise.future();
+    }
+
+    /**
+    * GetSummaryList ${tableCamel} command future.
+    *
+    * @param loginId the login id
+    * @param sortExpression the sort expression
+    * @param filterCondition the filter condition
+    * @param skip the skip
+    * @param pageSize the page size
+    * @return the ${tableCamel} command
+    */
+    public Future<${tablePascal}List> ${getListFunction}(Long loginId, String sortExpression, String filterCondition, Long skip, Long pageSize) {
+        LOGGER.info("info: ${getListFunction} - start");
+        Promise<${tablePascal}List> promise = Promise.promise();
+        client
+            .preparedQuery("SELECT * FROM ${tableUri}_get_summary_list($1, $2, $3, $4, $5);")
+            .execute(Tuple.of(loginId, sortExpression, filterCondition, skip, pageSize))
+            .onSuccess(res -> {
+                ${tablePascal}List ${tableCamel}List = new ${tablePascal}List();
+                try{
+                    System.out.println("Got " + res.size() + " rows ");
+                    for (Row row : res) {
+                        ${tablePascal} ${tableCamel} = create${tablePascal}(row);
+                        LOGGER.info("info: handle query ${getListFunction} result - ok");
+                        ${tableCamel}List.add(${tableCamel});
+                    }
+
+                    promise.complete(${tableCamel});
+
+                    if (promise.tryComplete()) {
+                      LOGGER.info("info: handle query ${getListFunction} result - no result");
+                    }
+                } catch(Exception e){
+                    LOGGER.info("info: handle query ${getListFunction} result - no result");
+                    promise.fail(e);
+                }
+            })
+            .onFailure(ar -> {
+                LOGGER.error("info: handle query ${getListFunction} result - failed");
+                promise.fail(ar.cause());
+            });
         return promise.future();
     }
 

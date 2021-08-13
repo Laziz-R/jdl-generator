@@ -70,6 +70,12 @@ public class ${schemaPascal}ServiceRouter {
         this.routerBuilder.operation("${schemaCamel}${entityPascal}GetList")
             .handler(${schemaCamel}ServiceController::handle${entityPascal}GetList);
 
+        this.routerBuilder.operation("${schemaCamel}${entityPascal}GetAll")
+            .handler(${schemaCamel}ServiceController::handle${entityPascal}GetAll);
+
+        this.routerBuilder.operation("${schemaCamel}${entityPascal}GetSummaryList")
+            .handler(${schemaCamel}ServiceController::handle${entityPascal}GetSummaryList);
+
         // endregion
 
         </#list>

@@ -85,7 +85,16 @@ public class ${servicePascal} {
         return this.${tableCamel}Command
             .${tableCamel}GetListCommand(uc.getLoginId(), skip, pageSize);
     }
-    
+
+    public Future<${tablePascal}List> ${tableCamel}GetAll(UserCredentials uc, Long skip) {
+        return this.${tableCamel}Command
+            .${tableCamel}GetAllCommand(uc.getLoginId());
+    }
+
+    public Future<${tablePascal}List> ${tableCamel}GetSummaryList(UserCredentials uc, String sortExpression, String filterCondition, Long skip, Long pageSize) {
+        return this.${tableCamel}Command
+            .${tableCamel}GetSummaryListCommand(uc.getLoginId(), sortExpression, filterCondition, skip, pageSize);
+    }
     //endregion
     
 </#list>

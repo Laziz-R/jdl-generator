@@ -1,19 +1,19 @@
 <#assign aDate = .now>
 <#assign schema = schema.snakeCase/>
 <#assign table = entity.name.snakeCase/>
-<#assign function_name = "${schema}.${table}_add"/>
-DROP FUNCTION IF EXISTS ${function_name};
-CREATE FUNCTION ${function_name}(
+<#assign functionName = "${schema}.${table}_add"/>
+DROP FUNCTION IF EXISTS ${functionName};
+CREATE FUNCTION ${functionName}(
   in_login_id BIGINT,
   <#list entity.fields as field>
   in_${field.name.snakeCase} ${field.type.pgName}<#sep>,
   </#list>
-  )
+)
 RETURNS BIGINT
 AS $$
 /******************************************************************************
-**        File: ${function_name}.sql
-**        Name: ${function_name}
+**        File: ${functionName}.sql
+**        Name: ${functionName}
 **        Desc: add ${table}'s data
 *******************************************************************************
 **        Auth: ${author}
@@ -27,11 +27,12 @@ AS $$
 **        Return values: ${table} id infor.
 *******************************************************************************
 **/
-  DECLARE FN_NAME CONSTANT TEXT := '${function_name}';
+
+DECLARE
+  FN_NAME CONSTANT TEXT := '${functionName}';
   STEP_INDEX INTEGER;
   STEP_DESC VARCHAR(500);
   result BIGINT;
-
 BEGIN
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,20 +1,20 @@
 <#assign aDate = .now>
 <#assign schema = schema.snakeCase/>
 <#assign table = entity.name.snakeCase/>
-<#assign function_name = "${schema}.${table}_update"/>
-DROP FUNCTION IF EXISTS ${function_name};
-CREATE FUNCTION ${function_name}(
-    in_login_id BIGINT,
-    in_${table}_id BIGINT,
+<#assign functionName = "${schema}.${table}_update"/>
+DROP FUNCTION IF EXISTS ${functionName};
+CREATE FUNCTION ${functionName}(
+  in_login_id BIGINT,
+  in_${table}_id BIGINT,
 <#list entity.fields as field>
-    in_${field.name.snakeCase} ${field.type.pgName}<#sep>,
+  in_${field.name.snakeCase} ${field.type.pgName}<#sep>,
 </#list>
 )
 RETURNS BIGINT
 AS $$
 /******************************************************************************
-**		File: ${function_name}.sql
-**		Name: ${function_name}
+**		File: ${functionName}.sql
+**		Name: ${functionName}
 **		Desc: update ${table}'s data
 *******************************************************************************
 **		Auth: ${author}
@@ -28,7 +28,9 @@ AS $$
 **		Return values: ${table} id.
 *******************************************************************************
 **/
-  DECLARE FN_NAME CONSTANT TEXT := '${function_name}';
+
+DECLARE
+  FN_NAME CONSTANT TEXT := '${functionName}';
   STEP_INDEX INTEGER;
   STEP_DESC VARCHAR(500);
   result BIGINT;
@@ -47,27 +49,27 @@ BEGIN
   RAISE NOTICE '%', STEP_DESC;
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 -- to do need to complete this step
-    IF NOT EXISTS(SELECT * FROM ${schema}.${table} WHERE ${table}.${table}_id = in_${table}_id AND NOT deleted) THEN
-        RAISE EXCEPTION '${table} % not exists --> % step %', in_${table}_id, STEP_INDEX, STEP_DESC
-        USING HINT = 'Please check your ${table} ID';
-    END IF;
+  IF NOT EXISTS(SELECT * FROM ${schema}.${table} WHERE ${table}.${table}_id = in_${table}_id AND NOT deleted) THEN
+      RAISE EXCEPTION '${table} % not exists --> % step %', in_${table}_id, STEP_INDEX, STEP_DESC
+      USING HINT = 'Please check your ${table} ID';
+  END IF;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
- STEP_INDEX := 20;
- RAISE NOTICE '%', FN_NAME || ': Select Data';
+  STEP_INDEX := 20;
+  RAISE NOTICE '%', FN_NAME || ': Select Data';
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
- UPDATE ${schema}.${table}
+  UPDATE ${schema}.${table}
     SET
 <#list entity.fields as field>
-        ${field.name.snakeCase} = in_${field.name.snakeCase},
+      ${field.name.snakeCase} = in_${field.name.snakeCase},
 </#list>
-        modified_on = now(),
-        modified_by = in_login_id
+      modified_on = now(),
+      modified_by = in_login_id
     WHERE
-        ${table}.${table}_id = in_${table}_id
-        AND NOT ${table}.deleted
-  RETURNING ${table}_id INTO result;
+      ${table}.${table}_id = in_${table}_id
+      AND NOT ${table}.deleted
+    RETURNING ${table}_id INTO result;
 
 RETURN result;
 END;
