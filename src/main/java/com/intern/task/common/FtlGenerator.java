@@ -193,6 +193,28 @@ public class FtlGenerator implements Structure {
                             );
                         }
                         break;
+                    case "create-get-all-function.sql.ftl":
+                        for (Entity e : jdlCode.getEntities()) {
+                            writtenFileNames.add(
+                                fileCreator.create(
+                                    file,
+                                    newFileName.replace("create-get-all-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_all"),
+                                    contextJson.put("entity", e)
+                                )
+                            );
+                        }
+                        break;
+                    case "create-get-summary-list-function.sql.ftl":
+                        for (Entity e : jdlCode.getEntities()) {
+                            writtenFileNames.add(
+                                fileCreator.create(
+                                    file,
+                                    newFileName.replace("create-get-summary-list-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_summary_list"),
+                                    contextJson.put("entity", e)
+                                )
+                            );
+                        }
+                        break;
                     case "create-update-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFileNames.add(
