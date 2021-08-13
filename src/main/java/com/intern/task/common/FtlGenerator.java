@@ -116,9 +116,9 @@ public class FtlGenerator implements Structure {
                             );
                         }
                         break;
-                    case "SchemaController.java.ftl":
+                    case "SchemaServiceController.java.ftl":
                     case "SchemaService.java.ftl":
-                    case "SchemaRouter.java.ftl":
+                    case "SchemaServiceRouter.java.ftl":
                         writtenFileNames.add(
                             fileCreator.create(
                                 file,

@@ -38,7 +38,7 @@ public class ${servicePascal} {
     public ${servicePascal} (Vertx vertx){
         LOGGER.info("init: Creating ${servicePascal} - start");
         this.vertx = vertx;
-        JsonObject dbConfig = vertx.getOrCreateContext().config().getJsonObject("db");
+        JsonObject dbConfig = vertx.getOrCreateContext().getJsonObject("${schema.pascalCase}Service").config().getJsonObject("db");
         PgConnectOptions connectOptions = new PgConnectOptions()
             .setPort(dbConfig.getInteger("port"))
             .setHost(dbConfig.getString("host"))
@@ -86,7 +86,7 @@ public class ${servicePascal} {
             .${tableCamel}GetListCommand(uc.getLoginId(), skip, pageSize);
     }
 
-    public Future<${tablePascal}List> ${tableCamel}GetAll(UserCredentials uc, Long skip) {
+    public Future<${tablePascal}List> ${tableCamel}GetAll(UserCredentials uc) {
         return this.${tableCamel}Command
             .${tableCamel}GetAllCommand(uc.getLoginId());
     }

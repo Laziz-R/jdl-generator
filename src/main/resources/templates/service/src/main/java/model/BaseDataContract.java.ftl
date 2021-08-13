@@ -144,7 +144,8 @@ public abstract class BaseDataContract {
     public static <T extends BaseDataContract> T fromJsonObject(String param, Class<T> type) {
         Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ")
-            .registerTypeAdapter(LocalDate.class, deserLocalDate)
+            .registerTypeAdapter(LocalDate.class, deserLD)
+            .registerTypeAdapter(OffsetDateTime.class, deserODT)
         .create();
         return type.cast(gson.fromJson(param, type));
     }

@@ -77,7 +77,7 @@ public class ${tablePascal}Command {
             })
             .onFailure(ar -> {
                 LOGGER.error("info: handle query ${addFunction} result - failed");
-                promise.fail(ar.cause());
+                promise.fail(ar);
             });
         return promise.future();
     }
@@ -117,7 +117,7 @@ public class ${tablePascal}Command {
             })
             .onFailure(ar -> {
                 LOGGER.error("info: handle query ${updateFunction} result - failed");
-                promise.fail(ar.cause());
+                promise.fail(ar);
             });
         return promise.future();
     }
@@ -148,7 +148,7 @@ public class ${tablePascal}Command {
             })
             .onFailure(ar -> {
                 LOGGER.error("info: handle query ${deleteFunction} result - failed");
-                promise.fail(ar.cause());
+                promise.fail(ar);
             });
         return promise.future();
     }
@@ -185,7 +185,7 @@ public class ${tablePascal}Command {
             })
             .onFailure(ar -> {
                 LOGGER.error("info: handle query ${getFunction} result - failed");
-                promise.fail(ar.cause());
+                promise.fail(ar);
             });
         return promise.future();
     }
@@ -214,7 +214,7 @@ public class ${tablePascal}Command {
                         ${tableCamel}List.add(${tableCamel});
                     }
 
-                    promise.complete(${tableCamel});
+                    promise.complete(${tableCamel}List);
 
                     if (promise.tryComplete()) {
                       LOGGER.info("info: handle query ${getListFunction} result - no result");
@@ -226,7 +226,7 @@ public class ${tablePascal}Command {
             })
             .onFailure(ar -> {
                 LOGGER.error("info: handle query ${getListFunction} result - failed");
-                promise.fail(ar.cause());
+                promise.fail(ar);
             });
         return promise.future();
     }
@@ -253,7 +253,7 @@ public class ${tablePascal}Command {
                         ${tableCamel}List.add(${tableCamel});
                     }
 
-                    promise.complete(${tableCamel});
+                    promise.complete(${tableCamel}List);
 
                     if (promise.tryComplete()) {
                       LOGGER.info("info: handle query ${getAllFunction} result - no result");
@@ -265,7 +265,7 @@ public class ${tablePascal}Command {
             })
             .onFailure(ar -> {
                 LOGGER.error("info: handle query ${getListFunction} result - failed");
-                promise.fail(ar.cause());
+                promise.fail(ar);
             });
         return promise.future();
     }
@@ -280,8 +280,8 @@ public class ${tablePascal}Command {
     * @param pageSize the page size
     * @return the ${tableCamel} command
     */
-    public Future<${tablePascal}List> ${getListFunction}(Long loginId, String sortExpression, String filterCondition, Long skip, Long pageSize) {
-        LOGGER.info("info: ${getListFunction} - start");
+    public Future<${tablePascal}List> ${getSummaryListFunction}(Long loginId, String sortExpression, String filterCondition, Long skip, Long pageSize) {
+        LOGGER.info("info: ${getSummaryListFunction} - start");
         Promise<${tablePascal}List> promise = Promise.promise();
         client
             .preparedQuery("SELECT * FROM ${tableUri}_get_summary_list($1, $2, $3, $4, $5);")
@@ -292,23 +292,23 @@ public class ${tablePascal}Command {
                     System.out.println("Got " + res.size() + " rows ");
                     for (Row row : res) {
                         ${tablePascal} ${tableCamel} = create${tablePascal}(row);
-                        LOGGER.info("info: handle query ${getListFunction} result - ok");
+                        LOGGER.info("info: handle query ${getSummaryListFunction} result - ok");
                         ${tableCamel}List.add(${tableCamel});
                     }
 
-                    promise.complete(${tableCamel});
+                    promise.complete(${tableCamel}List);
 
                     if (promise.tryComplete()) {
-                      LOGGER.info("info: handle query ${getListFunction} result - no result");
+                      LOGGER.info("info: handle query ${getSummaryListFunction} result - no result");
                     }
                 } catch(Exception e){
-                    LOGGER.info("info: handle query ${getListFunction} result - no result");
+                    LOGGER.info("info: handle query ${getSummaryListFunction} result - no result");
                     promise.fail(e);
                 }
             })
             .onFailure(ar -> {
-                LOGGER.error("info: handle query ${getListFunction} result - failed");
-                promise.fail(ar.cause());
+                LOGGER.error("info: handle query ${getSummaryListFunction} result - failed");
+                promise.fail(ar);
             });
         return promise.future();
     }

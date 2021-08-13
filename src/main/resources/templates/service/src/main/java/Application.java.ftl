@@ -16,9 +16,9 @@ import io.vertx.core.json.JsonObject;
 import org.apache.log4j.Logger;
 
 public class Application extends AbstractVerticle {
-    private static Logger LOGGER = Logger.getLogger(App.class);
+    private static Logger LOGGER = Logger.getLogger(Application.class);
     private final String configPath = "/src/main/resources/config.json";
-    
+
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(new Application());

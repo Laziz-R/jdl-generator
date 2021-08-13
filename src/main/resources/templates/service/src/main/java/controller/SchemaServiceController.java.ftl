@@ -46,9 +46,9 @@ public class ${controllerPascal} extends BaseController{
         super();
         LOGGER.info("init: ${controllerPascal} - start");
         this.vertx = vertx;
-        
+
         JsonObject config = Vertx.currentContext().config();
-        
+
         this.${serviceCamel} = new ${servicePascal}(vertx);
         this.serviceToken = config.getJsonObject("${servicePascal}").getString("token");
 
@@ -425,8 +425,8 @@ public class ${controllerPascal} extends BaseController{
             UserCredentials credentials = new UserCredentials().setLoginId(auth.getLong("user_id"));
 
             JsonObject params = this.getBodyJsonObjectParam(context, "params");
-            String sortExpression = params.getLong("sort_expression");
-            String sortExpression = params.getLong("filter_condition");
+            String sortExpression = params.getString("sort_expression");
+            String filterCondition = params.getString("filter_condition");
             Long pageSize = params.getLong("page_size");
             Long skip = params.getLong("skip_count");
 

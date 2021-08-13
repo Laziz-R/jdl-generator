@@ -11,11 +11,35 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
+  <dependencyManagement>
+      <dependencies>
+          <dependency>
+              <groupId>io.vertx</groupId>
+              <artifactId>vertx-stack-depchain</artifactId>
+              <version>4.0.3</version>
+              <type>pom</type>
+              <scope>import</scope>
+          </dependency>
+      </dependencies>
+  </dependencyManagement>
+
   <dependencies>
+    <#--  <dependency>
+      <groupId>com.safenetpay</groupId>
+      <artifactId>core-lib</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
     <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.8.7</version>
+      <groupId>com.safenetpay</groupId>
+      <artifactId>data-contracts-lib</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>  -->
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.7</version>
     </dependency>
 
     <dependency>
@@ -26,7 +50,7 @@
 
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-config</artifactId>
+      <artifactId>vertx-core</artifactId>
       <version>4.0.3</version>
     </dependency>
 
@@ -38,15 +62,8 @@
 
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-core</artifactId>
+      <artifactId>vertx-config</artifactId>
       <version>4.0.3</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -56,9 +73,28 @@
     </dependency>
 
     <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-web-client</artifactId>
+        <version>4.0.3</version>
+    </dependency>
+
+    <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web-openapi</artifactId>
       <version>4.0.3</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-junit5</artifactId>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

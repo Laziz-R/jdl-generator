@@ -5,13 +5,16 @@ package ${package}.router;
 
 import ${package}.controller.${schemaPascal}ServiceController;
 
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -29,7 +32,7 @@ public class ${schemaPascal}ServiceRouter {
     private RouterBuilder routerBuilder;
     private ${schemaPascal}ServiceController ${schemaCamel}ServiceController;
 
-    public ${schemaPascal}Router(Vertx vertx, RouterBuilder routerBuilder) {
+    public ${schemaPascal}ServiceRouter(Vertx vertx, RouterBuilder routerBuilder) {
         LOGGER.info("init: Creating Router - start");
         this.vertx = vertx;
         this.routerBuilder = routerBuilder;
@@ -46,7 +49,7 @@ public class ${schemaPascal}ServiceRouter {
 
         // map methods here
         
-        this.routerBuilder.setBodyHandler(BodyHandler.create());
+        this.routerBuilder.bodyHandler(BodyHandler.create());
 
         // this.routerBuilder.addSecurityHandler("ApiKeyAuth", this.${schemaCamel}ServiceController::handleApiKeyAuth);
 
