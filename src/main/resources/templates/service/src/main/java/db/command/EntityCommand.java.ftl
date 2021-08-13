@@ -2,12 +2,12 @@
 <#assign tablePascal = entity.name.pascalCase/>
 <#assign tableSnake = entity.name.snakeCase/>
 <#assign tableUri = "${schema.snakeCase}.${tableSnake}"/>
-<#assign addFunction = "${tableCamel}AddCommand"/>
-<#assign deleteFunction = "${tableCamel}DeleteCommand"/>
-<#assign updateFunction = "${tableCamel}UpdateCommand"/>
-<#assign getFunction = "${getFunction}"/>
+<#assign addFunction     = "${tableCamel}AddCommand"/>
+<#assign deleteFunction  = "${tableCamel}DeleteCommand"/>
+<#assign updateFunction  = "${tableCamel}UpdateCommand"/>
+<#assign getFunction     = "${tableCamel}GetCommand"/>
 <#assign getListFunction = "${tableCamel}GetListCommand"/>
-<#assign getAllFunction = "${tableCamel}GetAllCommand"/>
+<#assign getAllFunction  = "${tableCamel}GetAllCommand"/>
 <#assign getSummaryListFunction = "${tableCamel}GetSummaryListCommand"/>
 package ${package}.db.command;
 

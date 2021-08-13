@@ -26,6 +26,19 @@ paths:
           $ref: "#/components/responses/Success"
         404:
           $ref: "#/components/responses/Error"
+  
+  /${schemaKebab}/${tableKebab}/update:
+    post:
+      tags:
+        - "${schemaPascal} ${tablePascal}"
+      operationId:  ${schemaCamel}${tablePascal}Update
+      requestBody:
+        $ref: "#/components/requestBodies/RequestBody${tablePascal}"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
 
   /${schemaKebab}/${tableKebab}/delete:
     post:
@@ -66,18 +79,32 @@ paths:
         404:
           $ref: "#/components/responses/Error"
 
-  /${schemaKebab}/${tableKebab}/update:
+  /${schemaKebab}/${tableKebab}/get-all:
     post:
       tags:
         - "${schemaPascal} ${tablePascal}"
-      operationId:  ${schemaCamel}${tablePascal}Update
+      operationId:  ${schemaCamel}${tablePascal}GetAll
       requestBody:
-        $ref: "#/components/requestBodies/RequestBody${tablePascal}"
+        $ref: "#/components/requestBodies/RequestListParams"
       responses:
         200:
           $ref: "#/components/responses/Success"
         404:
           $ref: "#/components/responses/Error"
+
+  /${schemaKebab}/${tableKebab}/get-summary-list:
+    post:
+      tags:
+        - "${schemaPascal} ${tablePascal}"
+      operationId:  ${schemaCamel}${tablePascal}GetSummaryList
+      requestBody:
+        $ref: "#/components/requestBodies/RequestListParams"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        404:
+          $ref: "#/components/responses/Error"
+
 </#list>
 
 components:
@@ -177,6 +204,7 @@ components:
           type: integer
           nullable: true
           example: 20
+
   requestBodies:
     RequestListParams:
       description: "Standard get list"
