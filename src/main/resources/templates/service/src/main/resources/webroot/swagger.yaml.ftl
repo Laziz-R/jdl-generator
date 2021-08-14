@@ -6,7 +6,7 @@ info:
   title: ${schema.pascalCase} APIs
   version: '1.0'
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:7024
 
 paths:
 <#list entities as entity>
