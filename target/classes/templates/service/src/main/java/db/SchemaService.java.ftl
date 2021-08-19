@@ -38,7 +38,7 @@ public class ${servicePascal} {
     public ${servicePascal} (Vertx vertx){
         LOGGER.info("init: Creating ${servicePascal} - start");
         this.vertx = vertx;
-        JsonObject dbConfig = vertx.getOrCreateContext().getJsonObject("${schema.pascalCase}Service").config().getJsonObject("db");
+        JsonObject dbConfig = vertx.getOrCreateContext().config().getJsonObject("${schema.pascalCase}Service").getJsonObject("db");
         PgConnectOptions connectOptions = new PgConnectOptions()
             .setPort(dbConfig.getInteger("port"))
             .setHost(dbConfig.getString("host"))

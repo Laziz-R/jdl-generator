@@ -6,11 +6,15 @@ import java.util.List;
 import com.intern.task.model.jdl.Entity;
 import com.intern.task.model.jdl.Field;
 import com.intern.task.model.jdl.Name;
+import com.intern.task.model.jdl.Validation;
 import com.intern.task.model.jdl.type.Type;
 import com.intern.task.util.CaseUtil;
 import com.intern.task.util.CodeUtil;
 
+import org.apache.log4j.Logger;
+
 public class EntityMaker extends Maker<Entity>{
+    private static Logger LOGGER = Logger.getLogger(EntityMaker.class);
 
     public EntityMaker() {
         object = new Entity();
@@ -65,9 +69,7 @@ public class EntityMaker extends Maker<Entity>{
                     annos = new ArrayList<>();
                 annos.add(line);
             } else if(!line.equals("")){
-                if(line.endsWith(",")){
-                    line = line.substring(0, line.length()-1);
-                }
+                line = line.replace(",", "");
 
                 object.getFields().add(makeField(line)
                     .setAnnotations(annos)
@@ -83,19 +85,36 @@ public class EntityMaker extends Maker<Entity>{
         Field field = new Field();
         content = CodeUtil.remove2Probels(content.replaceAll("\\s", " "));
         String[] items = content.trim().split(" ");
+        Validation validation = null;
         for(int i=0; i<items.length; i++){
             items[i] = items[i].trim();
             switch(i){
                 case 0: field.setName(new Name(items[0], CaseUtil.CAMEL_CASE)); break;
                 case 1: field.setType(new Type(items[1])); break;
                 default:
-                    if(field.getValidations() == null)
-                        field.setValidations(new ArrayList<>());
-                    field.getValidations().add(items[i]);
-                    if(items[i].equals("required"))
-                        field.setRequired(true);
+                try {
+                    if(validation == null)
+                        validation = new Validation();
+                    if(items[i].equals("required")){                        
+                        validation.setRequired(true);
+                    } else if(items[i].equals("unique")){
+                        validation.setUnique(true);
+                    } else if(items[i].startsWith("max")){
+                        String number = items[i].split("\\(")[1].split("\\)")[0].trim();
+                        validation.setMax(Long.parseLong(number));
+                    } else if(items[i].startsWith("min")){
+                        String number = items[i].split("\\(")[1].split("\\)")[0].trim();
+                        validation.setMin(Long.parseLong(number));
+                    } else if(items[i].startsWith("pattern")){
+                        String pattern = items[i].split("\\(")[1].split("\\)")[0].trim();
+                        validation.setPattern(pattern);
+                    }
+                } catch (Exception e) {
+                    LOGGER.error(e);
+                }
             }
         }
+        field.setValidation(validation);
         return field;
     }
 

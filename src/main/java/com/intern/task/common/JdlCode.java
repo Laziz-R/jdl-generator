@@ -12,14 +12,16 @@ import com.intern.task.model.jdl.Field;
 import com.intern.task.model.jdl.Name;
 import com.intern.task.model.jdl.Relationship;
 import com.intern.task.model.jdl.type.Type;
+import com.intern.task.model.sql.ForeignKey;
 import com.intern.task.util.CaseUtil;
 import com.intern.task.util.CodeUtil;
+
 
 public class JdlCode {
     private String code;
     private List<Entity> entities = new ArrayList<>();
     private List<Enum> enums = new ArrayList<>();
-    private List<Relationship> relationships = new ArrayList<>();
+    private List<ForeignKey> foreignKeys = new ArrayList<>();
     private List<String> others = new ArrayList<>();
     
     public JdlCode(String code){
@@ -51,7 +53,6 @@ public class JdlCode {
                 enums.add(new EnumMaker().make(head, body));
             } else if(head.indexOf("relationship")>-1){
                 for(Relationship rel: new RelationMaker().make(head, body)){
-                    relationships.add(rel);
                     relate(rel);
                 }
             }
@@ -59,56 +60,64 @@ public class JdlCode {
         }
     }
 
-    public void relate(Relationship rel){
-        Entity fromEntity = null;
-        Entity toEntity = null;
+    private void relate(Relationship rel){
+        Entity fromEntity = null, toEntity = null;
+        ForeignKey fromFK = rel.getFromFK();
+        ForeignKey toFK = rel.getToFK();
 
         for(Entity e: entities){
-            String eName = e.getName().getPascalCase();
-            if(eName.equals(rel.getFromEntity())){
+            if(e.getName().equals(toFK.getToEntityName())){
                 fromEntity = e;
-            } else if(eName.equals(rel.getToEntity())){
+                for(Field f: e.getFields()){
+                    if(f.getName().equals(toFK.getFromField().getName())){
+                        toFK.getFromField().setType(f.getType());
+                        toFK.setToField(f);
+                    }
+                }
+                if(toFK.getToField().getName() == null){
+                    toFK.setToField(new Field()
+                        .setName(new Name(e.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
+                        .setType(new Type("Long")));
+                    toFK.getFromField().setType(new Type("Long"));
+                }
+            }
+            if(e.getName().equals(fromFK.getToEntityName())){
                 toEntity = e;
+                for(Field f: e.getFields()){
+                    if(f.getName().equals(fromFK.getFromField().getName())){
+                        fromFK.getFromField().setType(f.getType());
+                        fromFK.setToField(f);
+                    }
+                }
+                if(fromFK.getToField().getName() == null){
+                    fromFK.setToField(new Field()
+                        .setName(new Name(e.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
+                        .setType(new Type("Long")));
+                    fromFK.getFromField().setType(new Type("Long"));
+                }
             }
         }
-
-        if(fromEntity == null || toEntity == null) return;
-        if(fromEntity.equals(toEntity)) return;
+        if(fromEntity == null || toEntity == null)
+            return;
         switch(rel.getType()){
             case ONE_TO_ONE:
             case MANY_TO_ONE:
-                fromEntity.getFields().add(
-                    new Field()
-                        .setType(new Type("Long"))
-                        .setName(new Name(toEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE)));
+                fromEntity.getFields().add(fromFK.getFromField());
+                foreignKeys.add(fromFK);
                 break;
             case ONE_TO_MANY:
-                toEntity.getFields().add(
-                    new Field()
-                        .setType(new Type("Long"))
-                        .setName(new Name(fromEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE)));
+                toEntity.getFields().add(toFK.getFromField());
+                foreignKeys.add(toFK);
                 break;
             case MANY_TO_MANY:
-                Name eName = new Name(fromEntity.getName().getPascalCase() + toEntity.getName().getPascalCase(), CaseUtil.PASCAL_CASE);
-                List<Field> fields = new ArrayList<>();
-                Field fromEntityId = new Field()
-                    .setName(new Name(fromEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
-                    .setType(new Type("Long"))
-                    .setRequired(true);
-                Field toEntityId = new Field()
-                    .setName(new Name(toEntity.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
-                    .setType(new Type("Long"))
-                    .setRequired(true);;
-                fields.add(fromEntityId);
-                fields.add(toEntityId);
-                entities.add(
-                    new Entity()
-                        .setName(eName)
-                        .setFields(fields)
-                    );
-                break;
-            default:
-                break;
+                Entity e = new Entity();
+                e.setName(fromFK.getFromEntityName());
+                e.getFields().add(fromFK.getFromField());
+                e.getFields().add(toFK.getFromField());
+                entities.add(e);
+
+                foreignKeys.add(fromFK);
+                foreignKeys.add(toFK);
         }
     }
 
@@ -128,16 +137,12 @@ public class JdlCode {
         this.enums = enums;
     }
 
-    public List<Relationship> getRelationships() {
-        return this.relationships;
-    }
-
-    public void setRelationships(List<Relationship> relationships) {
-        this.relationships = relationships;
-    }
-
     public List<String> getOthers() {
         return this.others;
+    }
+
+    public List<ForeignKey> getForeignKeys() {
+        return foreignKeys;
     }
 
     public void setOthers(List<String> others) {

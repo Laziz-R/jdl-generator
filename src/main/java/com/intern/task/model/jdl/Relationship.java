@@ -1,9 +1,11 @@
 package com.intern.task.model.jdl;
 
+import com.intern.task.model.sql.ForeignKey;
+
 public class Relationship {
     private RelationType type;
-    private String fromEntity;
-    private String toEntity;
+    private ForeignKey fromFK;
+    private ForeignKey toFK;
 
     public RelationType getType() {
         return this.type;
@@ -14,23 +16,22 @@ public class Relationship {
         return this;
     }
 
-    public String getFromEntity() {
-        return this.fromEntity;
+    public ForeignKey getFromFK() {
+        return this.fromFK;
     }
 
-    public Relationship setFromEntity(String fromEntity) {
-        this.fromEntity = fromEntity;
+    public Relationship setFromFK(ForeignKey fromFK) {
+        this.fromFK = fromFK;
         return this;
     }
 
-    public String getToEntity() {
-        return this.toEntity;
+    public ForeignKey getToFK() {
+        return this.toFK;
     }
 
-    public Relationship setToEntity(String toEntity) {
-        this.toEntity = toEntity;
+    public Relationship setToFK(ForeignKey toFK) {
+        this.toFK = toFK;
         return this;
     }
-
 
 }

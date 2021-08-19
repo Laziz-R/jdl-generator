@@ -9,8 +9,7 @@ public class  Field {
     private List<String> annotations;
     private Type type;
     private Name name;
-    private List<String> validations;
-    private boolean required = false;
+    private Validation validation;
 
     public List<String> getJavadoc() {
         return this.javadoc;
@@ -47,22 +46,12 @@ public class  Field {
         this.name = name;
         return this;
     }
-
-    public List<String> getValidations() {
-        return this.validations;
+    
+    public Validation getValidation() {
+        return validation;
     }
 
-    public Field setValidations(List<String> validations) {
-        this.validations = validations;
-        return this;
-    }
-
-    public boolean isRequired() {
-        return required;
-    }
-
-    public Field setRequired(boolean required) {
-        this.required = required;
-        return this;
+    public void setValidation(Validation validation) {
+        this.validation = validation;
     }
 }

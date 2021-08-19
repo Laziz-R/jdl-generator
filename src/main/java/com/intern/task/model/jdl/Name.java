@@ -29,7 +29,7 @@ public class Name {
                 this.camelCase = CaseUtil.snakeToCamel(name);
                 this.kebabCase = CaseUtil.snakeToKebab(name);
                 break;
-        }        
+        }
         this.upperCase = snakeCase.toUpperCase();
     }
 
@@ -53,4 +53,19 @@ public class Name {
         return upperCase;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Name other = (Name) obj;
+        return
+            other.camelCase.equals(this.camelCase);
+    }
 }
