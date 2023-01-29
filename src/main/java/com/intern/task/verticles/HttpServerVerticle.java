@@ -10,8 +10,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
-public class HttpServerVerticle extends AbstractVerticle{
-    private static Logger LOGGER = Logger.getLogger(HttpServerVerticle.class);
+public class HttpServerVerticle extends AbstractVerticle {
+    private static final Logger LOGGER = Logger.getLogger(HttpServerVerticle.class);
 
     @Override
     public void start() throws Exception {
@@ -20,25 +20,25 @@ public class HttpServerVerticle extends AbstractVerticle{
 
         Router router = Router.router(vertx);
         router.route().handler(BodyHandler.create()
-            .setDeleteUploadedFilesOnEnd(true)
-            .setBodyLimit(10_000));
+                .setDeleteUploadedFilesOnEnd(true)
+                .setBodyLimit(10_000));
 
         router.route("/*").handler(StaticHandler.create());
-        
+
         router.post("/file-upload").handler(this::uploadHandler);
-        
+
         vertx.createHttpServer()
-            .requestHandler(router)
-            .listen(port, host)
-                .onSuccess(server->{
+                .requestHandler(router)
+                .listen(port, host)
+                .onSuccess(server -> {
                     LOGGER.info(String.format("Server started ...\thttp://%s:%d/", host, port));
                 });
     }
 
-    void uploadHandler(RoutingContext ctx){
+    void uploadHandler(RoutingContext ctx) {
         FtlGenerator ftlGenerator = new FtlGenerator(ctx);
         ftlGenerator.generate()
-            .onSuccess(tree -> ctx.end(tree.encodePrettily()))
-            .onFailure(ar -> ctx.end(ar.getMessage()));
+                .onSuccess(tree -> ctx.end(tree.encodePrettily()))
+                .onFailure(ar -> ctx.end(ar.getMessage()));
     }
 }

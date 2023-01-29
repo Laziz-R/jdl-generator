@@ -9,8 +9,8 @@ public class Name {
     private String kebabCase;   // kebab-case
     private String upperCase;   // UPPER_CASE
 
-    public Name(String name, String caseType){
-        switch(caseType){
+    public Name(String name, String caseType) {
+        switch (caseType) {
             case CaseUtil.CAMEL_CASE:
                 this.camelCase = name;
                 this.snakeCase = CaseUtil.camelToSnake(name);
@@ -30,7 +30,10 @@ public class Name {
                 this.kebabCase = CaseUtil.snakeToKebab(name);
                 break;
         }
-        this.upperCase = snakeCase.toUpperCase();
+
+        if (snakeCase != null) {
+            this.upperCase = snakeCase.toUpperCase();
+        }
     }
 
     public String getCamelCase() {
@@ -65,7 +68,7 @@ public class Name {
             return false;
         }
         Name other = (Name) obj;
-        return
-            other.camelCase.equals(this.camelCase);
+
+        return other.camelCase.equals(this.camelCase);
     }
 }

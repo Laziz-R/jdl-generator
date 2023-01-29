@@ -12,13 +12,13 @@ public class Entity {
     private String tableName;
     private List<Field> fields = new ArrayList<>();
 
-    public Set<String> getLibraries(){
+    public Set<String> getLibraries() {
         Set<String> libraries = new HashSet<>();
-        for(Field field: fields){
+        for (Field field : fields) {
             String lib = field.getType().getLibrary();
-            if(lib!=null)
+            if (lib != null)
                 libraries.add(lib);
-        }        
+        }
         return libraries;
     }
 

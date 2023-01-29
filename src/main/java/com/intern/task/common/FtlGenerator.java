@@ -22,16 +22,16 @@ import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 
 public class FtlGenerator implements Structure {
-    private static Logger LOGGER = Logger.getLogger(FtlGenerator.class);
+    private final static Logger LOGGER = Logger.getLogger(FtlGenerator.class);
 
-    private JdlCode jdlCode;
-    private FileCreator fileCreator;
-    private JsonObject contextJson = new JsonObject();
+    private final JdlCode jdlCode;
+    private final FileCreator fileCreator;
+    private final JsonObject contextJson = new JsonObject();
 
     private Name schema;
     private String extendedJavaPath;
 
-    private List<Future> writtenFiles = new ArrayList<>();
+    private final List<Future> writtenFiles = new ArrayList<>();
 
     public FtlGenerator(RoutingContext ctx) {
         Vertx vertx = ctx.vertx();
@@ -40,7 +40,7 @@ public class FtlGenerator implements Structure {
         this.fileCreator = new FileCreator(vertx);
 
         params.forEach(p -> {
-            if(p.getKey().equals("schema")){
+            if (p.getKey().equals("schema")) {
                 schema = new Name(p.getValue(), CaseUtil.SNAKE_CASE);
                 this.contextJson.put("schema", schema);
             } else {
@@ -62,24 +62,22 @@ public class FtlGenerator implements Structure {
 
         jdlCode.define();
         contextJson
-            .put("enums", jdlCode.getEnums())
-            .put("entities", jdlCode.getEntities())
-            .put("foreignKeys", jdlCode.getForeignKeys());
+                .put("enums", jdlCode.getEnums())
+                .put("entities", jdlCode.getEntities())
+                .put("foreignKeys", jdlCode.getForeignKeys());
 
         generateFile(new File(TEMPLATE_PATH));
         CompositeFuture.all(writtenFiles)
-            .onSuccess(ar -> {
-                promise.complete(
-                    new JsonObject()
-                        .put(GENERATE_PATH, getTree(new File(GENERATE_PATH)))
-                );
-            })
-            .onFailure(promise::fail);
+                .onSuccess(ar -> promise.complete(
+                        new JsonObject()
+                                .put(GENERATE_PATH, getTree(new File(GENERATE_PATH)))
+                ))
+                .onFailure(promise::fail);
         return promise.future();
     }
 
     private void generateFile(File file) {
-        if(!file.exists()) return;
+        if (!file.exists()) return;
         if (file.isDirectory()) {
             for (File subFile : file.listFiles())
                 generateFile(subFile);
@@ -87,33 +85,33 @@ public class FtlGenerator implements Structure {
             try {
                 //  Form generating path of the file
                 String newFileName = file.getPath()
-                    .replace(TEMPLATE_PATH + "\\", GENERATE_PATH + "\\" + schema.getKebabCase() + "-")
-                    .replaceFirst("java", extendedJavaPath)
-                    .replace(".ftl", "");
+                        .replace(TEMPLATE_PATH + "\\", GENERATE_PATH + "\\" + schema.getKebabCase() + "-")
+                        .replaceFirst("java", extendedJavaPath)
+                        .replace(".ftl", "");
 
                 //  Generating template files
-                switch(file.getName()){
+                switch (file.getName()) {
                     case "Entity.java.ftl":
                     case "EntityCommand.java.ftl":
                     case "EntityList.java.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("Entity", e.getName().getPascalCase()),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("Entity", e.getName().getPascalCase()),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "Enum.java.ftl":
                         for (Enum e : jdlCode.getEnums()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("Enum", e.getName().getPascalCase()),
-                                    contextJson.put("enum", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("Enum", e.getName().getPascalCase()),
+                                            contextJson.put("enum", e)
+                                    )
                             );
                         }
                         break;
@@ -121,111 +119,111 @@ public class FtlGenerator implements Structure {
                     case "SchemaService.java.ftl":
                     case "SchemaServiceRouter.java.ftl":
                         writtenFiles.add(
-                            fileCreator.create(
-                                file,
-                                newFileName.replace("Schema", schema.getPascalCase()),
-                                contextJson
-                            )
+                                fileCreator.create(
+                                        file,
+                                        newFileName.replace("Schema", schema.getPascalCase()),
+                                        contextJson
+                                )
                         );
                         break;
                     case "create-table.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-table", schema.getSnakeCase() + "." + e.getName().getSnakeCase()),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-table", schema.getSnakeCase() + "." + e.getName().getSnakeCase()),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-references.sql.ftl":
                         writtenFiles.add(
                                 fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-references", schema.getSnakeCase() + "-references"),
-                                    contextJson
+                                        file,
+                                        newFileName.replace("create-references", schema.getSnakeCase() + "-references"),
+                                        contextJson
                                 )
-                            );
+                        );
                         break;
                     case "create-add-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-add-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "add"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-add-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "add"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-delete-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-delete-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "delete"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-delete-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "delete"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-get-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-get-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-get-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-get-list-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-get-list-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_list"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-get-list-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_list"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-get-all-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-get-all-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_all"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-get-all-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_all"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-get-summary-list-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-get-summary-list-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_summary_list"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-get-summary-list-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "get_summary_list"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
                     case "create-update-function.sql.ftl":
                         for (Entity e : jdlCode.getEntities()) {
                             writtenFiles.add(
-                                fileCreator.create(
-                                    file,
-                                    newFileName.replace("create-update-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "update"),
-                                    contextJson.put("entity", e)
-                                )
+                                    fileCreator.create(
+                                            file,
+                                            newFileName.replace("create-update-function", schema.getSnakeCase() + "." + e.getName().getSnakeCase() + "_" + "update"),
+                                            contextJson.put("entity", e)
+                                    )
                             );
                         }
                         break;
-                        
+
                     case "config.properties.ftl":
                         String currentPath = (System.getProperty("user.dir") + "/" + newFileName.split("src")[0]).replace("\\", "/");
                         writtenFiles.add(fileCreator.create(file, newFileName, contextJson.put("currentPath", currentPath)));
@@ -252,17 +250,17 @@ public class FtlGenerator implements Structure {
         return file.delete();
     }
 
-    private JsonArray getTree(File file){
+    private JsonArray getTree(File file) {
         JsonArray items = new JsonArray();
-        if(file.isFile()){
+        if (file.isFile()) {
             return items.add(file.getName());
-        } 
-        if(file.isDirectory()){
-            for(File subFile: file.listFiles())
-                if(subFile.isDirectory())
+        }
+        if (file.isDirectory()) {
+            for (File subFile : file.listFiles())
+                if (subFile.isDirectory())
                     items.add(new JsonObject().put(subFile.getName(), getTree(subFile)));
-            for(File subFile: file.listFiles())
-                if(subFile.isFile())
+            for (File subFile : file.listFiles())
+                if (subFile.isFile())
                     items.add(subFile.getName());
         }
         return items;

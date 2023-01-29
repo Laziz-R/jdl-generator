@@ -23,8 +23,8 @@ public class JdlCode {
     private List<Enum> enums = new ArrayList<>();
     private List<ForeignKey> foreignKeys = new ArrayList<>();
     private List<String> others = new ArrayList<>();
-    
-    public JdlCode(String code){
+
+    public JdlCode(String code) {
         this.code = CodeUtil.removeComments(code);
     }
 
@@ -33,26 +33,26 @@ public class JdlCode {
     }
 
     /**
-     * Defines all entites, enums, relationships and others.
+     * Defines all entities, enums, relationships and others.
      */
-    public void define(){
+    public void define() {
         int cursor = 0;
-        while(cursor<code.length()){
+        while (cursor < code.length()) {
             int openIndex = code.indexOf("{", cursor);
-            if(openIndex<0)
+            if (openIndex < 0)
                 return;
-            int closeIndex = CodeUtil.findCloseBkt(code, openIndex);
-            if(closeIndex<0)
+            int closeIndex = CodeUtil.getClosedIndex(code, openIndex);
+            if (closeIndex < 0)
                 return;
             String head = code.substring(cursor, openIndex).trim();
             String body = code.substring(openIndex + 1, closeIndex).trim();
-            
-            if(head.indexOf("entity")>-1){
-                entities.add(new EntityMaker().make(head, body));
-            } else if(head.indexOf("enum")>-1){
-                enums.add(new EnumMaker().make(head, body));
-            } else if(head.indexOf("relationship")>-1){
-                for(Relationship rel: new RelationMaker().make(head, body)){
+
+            if (head.contains("entity")) {
+                entities.add(EntityMaker.make(head, body));
+            } else if (head.contains("enum")) {
+                enums.add(EnumMaker.make(head, body));
+            } else if (head.contains("relationship")) {
+                for (Relationship rel : RelationMaker.make(head, body)) {
                     relate(rel);
                 }
             }
@@ -60,46 +60,46 @@ public class JdlCode {
         }
     }
 
-    private void relate(Relationship rel){
+    private void relate(Relationship rel) {
         Entity fromEntity = null, toEntity = null;
         ForeignKey fromFK = rel.getFromFK();
         ForeignKey toFK = rel.getToFK();
 
-        for(Entity e: entities){
-            if(e.getName().equals(toFK.getToEntityName())){
+        for (Entity e : entities) {
+            if (e.getName().equals(toFK.getToEntityName())) {
                 fromEntity = e;
-                for(Field f: e.getFields()){
-                    if(f.getName().equals(toFK.getFromField().getName())){
+                for (Field f : e.getFields()) {
+                    if (f.getName().equals(toFK.getFromField().getName())) {
                         toFK.getFromField().setType(f.getType());
                         toFK.setToField(f);
                     }
                 }
-                if(toFK.getToField().getName() == null){
+                if (toFK.getToField().getName() == null) {
                     toFK.setToField(new Field()
-                        .setName(new Name(e.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
-                        .setType(new Type("Long")));
+                            .setName(new Name(e.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
+                            .setType(new Type("Long")));
                     toFK.getFromField().setType(new Type("Long"));
                 }
             }
-            if(e.getName().equals(fromFK.getToEntityName())){
+            if (e.getName().equals(fromFK.getToEntityName())) {
                 toEntity = e;
-                for(Field f: e.getFields()){
-                    if(f.getName().equals(fromFK.getFromField().getName())){
+                for (Field f : e.getFields()) {
+                    if (f.getName().equals(fromFK.getFromField().getName())) {
                         fromFK.getFromField().setType(f.getType());
                         fromFK.setToField(f);
                     }
                 }
-                if(fromFK.getToField().getName() == null){
+                if (fromFK.getToField().getName() == null) {
                     fromFK.setToField(new Field()
-                        .setName(new Name(e.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
-                        .setType(new Type("Long")));
+                            .setName(new Name(e.getName().getCamelCase() + "Id", CaseUtil.CAMEL_CASE))
+                            .setType(new Type("Long")));
                     fromFK.getFromField().setType(new Type("Long"));
                 }
             }
         }
-        if(fromEntity == null || toEntity == null)
+        if (fromEntity == null || toEntity == null)
             return;
-        switch(rel.getType()){
+        switch (rel.getType()) {
             case ONE_TO_ONE:
             case MANY_TO_ONE:
                 fromEntity.getFields().add(fromFK.getFromField());

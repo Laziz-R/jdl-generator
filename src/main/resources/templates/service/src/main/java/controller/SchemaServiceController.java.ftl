@@ -60,7 +60,7 @@ public class ${controllerPascal} extends BaseController{
     }
 
 
-    //  #region  Common handlers
+    // region  Common handlers
 
     /**
     * Default ${controllerPascal} fail handler.
@@ -164,7 +164,7 @@ public class ${controllerPascal} extends BaseController{
             .onFailure(context::fail);
     }
 
-    //  #endregion
+    // endregion
 
 
     <#list entities as entity>

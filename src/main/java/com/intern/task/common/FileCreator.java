@@ -13,38 +13,38 @@ import io.vertx.ext.web.common.template.TemplateEngine;
 import io.vertx.ext.web.templ.freemarker.FreeMarkerTemplateEngine;
 
 public class FileCreator {
-    Vertx vertx;    
+    Vertx vertx;
     TemplateEngine engine;
 
-    public FileCreator(Vertx vertx){
+    public FileCreator(Vertx vertx) {
         this.vertx = vertx;
         this.engine = FreeMarkerTemplateEngine.create(vertx);
     }
 
-    public Future<Void> create(File tempFile, String newFileName, JsonObject context){
+    public Future<Void> create(File tempFile, String newFileName, JsonObject context) {
         Promise<Void> promise = Promise.promise();
         File newFile = new File(newFileName);
 
-        if(!newFile.exists()){
+        if (!newFile.exists()) {
             try {
                 Files.createDirectories(Paths.get(newFile.getParent()));
             } catch (IOException e) {
                 promise.fail(e);
             }
         }
-        if(tempFile.getName().endsWith(".ftl")){
+        if (tempFile.getName().endsWith(".ftl")) {
             engine.render(context, tempFile.getPath())
-                .onSuccess(buffer -> 
-                    vertx.fileSystem()
-                        .writeFile(newFileName, buffer)
-                            .onSuccess(ar -> promise.complete())
-                            .onFailure(promise::fail)
-                )
-                .onFailure(promise::fail);
+                    .onSuccess(buffer ->
+                            vertx.fileSystem()
+                                    .writeFile(newFileName, buffer)
+                                    .onSuccess(ar -> promise.complete())
+                                    .onFailure(promise::fail)
+                    )
+                    .onFailure(promise::fail);
         } else {
             vertx.fileSystem().copy(tempFile.getPath(), newFileName)
-                .onSuccess(ar -> promise.complete())
-                .onFailure(promise::fail);
+                    .onSuccess(ar -> promise.complete())
+                    .onFailure(promise::fail);
         }
         return promise.future();
     }

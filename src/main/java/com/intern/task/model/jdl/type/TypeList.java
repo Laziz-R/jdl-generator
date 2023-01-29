@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface TypeList {
-    public final List<Type> TYPES = Arrays.asList(
+    List<Type> TYPES = Arrays.asList(
         new Type("Byte", "SMALLINT", "integer", null),
         new Type("Short", "SMALLINT", "integer", null),
         new Type("Integer", "INTEGER", "integer", null),

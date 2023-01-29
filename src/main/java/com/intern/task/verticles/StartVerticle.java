@@ -9,25 +9,21 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;
 
-public class StartVerticle extends AbstractVerticle{
-    private static Logger LOGGER = Logger.getLogger(StartVerticle.class);
-    
+public class StartVerticle extends AbstractVerticle {
+    private static final Logger LOGGER = Logger.getLogger(StartVerticle.class);
+
     @Override
     public void start() throws Exception {
         String path = System.getProperty("user.dir") + "/src/main/resources/config/config.json";
         ConfigStoreOptions storeOptions = new ConfigStoreOptions()
-            .setType("file")
-            .setConfig(new JsonObject().put("path", path));
+                .setType("file")
+                .setConfig(new JsonObject().put("path", path));
         ConfigRetrieverOptions options = new ConfigRetrieverOptions().addStore(storeOptions);
         ConfigRetriever retriever = ConfigRetriever.create(vertx, options);
 
         retriever.getConfig()
-            .onSuccess(conf->{
-                vertx.deployVerticle(new HttpServerVerticle(), 
-                    new DeploymentOptions().setConfig(conf));
-            })
-            .onFailure(ar->{
-                LOGGER.error("Config file...");
-            });
+                .onSuccess(conf -> vertx.deployVerticle(new HttpServerVerticle(),
+                        new DeploymentOptions().setConfig(conf)))
+                .onFailure(ar -> LOGGER.error("Config file..."));
     }
 }

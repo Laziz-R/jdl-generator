@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.intern.task.model.jdl.type.Type;
 
-public class  Field {
+public class Field {
     private List<String> javadoc;
     private List<String> annotations;
     private Type type;
@@ -46,7 +46,7 @@ public class  Field {
         this.name = name;
         return this;
     }
-    
+
     public Validation getValidation() {
         return validation;
     }
